@@ -1,0 +1,9 @@
+{
+  "event_id": "evt-example-001",
+  "device_id": "esp32-cyberhunter-01",
+  "input_risk_score": 40,
+  "esp32_risk_score": 40,
+  "decision": "normal",
+  "processed": true
+}
+

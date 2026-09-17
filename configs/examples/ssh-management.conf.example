@@ -1,0 +1,6 @@
+Port 22222
+PermitRootLogin no
+PubkeyAuthentication yes
+PasswordAuthentication no
+AllowUsers <MANAGEMENT_USER>
+

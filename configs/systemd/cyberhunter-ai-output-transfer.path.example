@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch CyberHunter AI output directory
+After=local-fs.target
+
+[Path]
+PathChanged=/var/lib/cyberhunter/ai/output
+Unit=cyberhunter-ai-output-transfer.service
+
+[Install]
+WantedBy=multi-user.target
+

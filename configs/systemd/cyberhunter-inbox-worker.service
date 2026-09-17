@@ -1,0 +1,38 @@
+[Unit]
+Description=Deliver one CyberHunter inbox event through ESP32
+After=network-online.target cyberhunter-ai-bridge-receiver.service
+Wants=network-online.target
+ConditionPathExists=/dev/i2c-1
+
+[Service]
+Type=oneshot
+User=cyberbridge
+Group=cyberbridge
+SupplementaryGroups=i2cbridge cyberdelivery
+WorkingDirectory=/opt/cyberhunter/apps/bridge
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/cyberhunter/venvs/bridge/bin/python /opt/cyberhunter/apps/bridge/inbox_worker.py
+TimeoutStartSec=90
+UMask=0027
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+
+ReadOnlyPaths=/opt/cyberhunter/apps/bridge
+# A single writable bind mount is required for atomic os.replace() moves
+# between inbox, processing, archive, rejected, and state.
+ReadWritePaths=/var/lib/cyberhunter/bridge
+
+[Install]
+WantedBy=multi-user.target

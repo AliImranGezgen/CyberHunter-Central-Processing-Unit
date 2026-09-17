@@ -1,0 +1,12 @@
+[Unit]
+Description=Retry CyberHunter AI output transfer
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=cyberhunter-ai-output-transfer.service
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

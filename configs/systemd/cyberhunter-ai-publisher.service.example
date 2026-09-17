@@ -1,0 +1,24 @@
+[Unit]
+Description=CyberHunter validated frontend event publisher
+After=cyberhunter-ai.service
+Requires=cyberhunter-ai.service
+
+[Service]
+Type=simple
+User=cyberai
+Group=cyberai
+WorkingDirectory=/opt/cyberhunter/workspaces/ai/network_ai_v2_linux
+Environment=PYTHONPATH=/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/src
+ExecStart=/opt/cyberhunter/workspaces/ai/.venv/bin/python -m cyberhunter_ai.frontend_publisher --config /opt/cyberhunter/workspaces/ai/network_ai_v2_linux/configs/frontend_publisher.yaml
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadOnlyPaths=/var/log/cyberhunter/ai/network_ai.jsonl
+ReadWritePaths=/var/log/cyberhunter/ai /var/lib/cyberhunter/ai/output
+
+[Install]
+WantedBy=multi-user.target
+

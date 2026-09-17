@@ -1,0 +1,12 @@
+[Unit]
+Description=Poll the CyberHunter bridge inbox for ESP32 delivery
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=15s
+AccuracySec=1s
+Persistent=true
+Unit=cyberhunter-inbox-worker.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/cyberhunter/event.schema.json",
+  "title": "CyberHunter ESP32 Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "timestamp",
+    "source_ip",
+    "destination_port",
+    "protocol",
+    "event_type",
+    "command",
+    "tactic",
+    "risk_score"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1, "maxLength": 40},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source_ip": {"type": "string", "minLength": 1},
+    "destination_port": {"type": "integer", "minimum": 1, "maximum": 65535},
+    "protocol": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "command": {"type": "string", "minLength": 1, "maxLength": 256},
+    "tactic": {"type": "string", "minLength": 1},
+    "risk_score": {"type": "integer", "minimum": 0, "maximum": 100}
+  }
+}
+

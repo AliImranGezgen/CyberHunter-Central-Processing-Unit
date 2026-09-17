@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "event_id": "00000000-0000-5000-8000-000000000001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "sensor": "cyberhunter-pi",
+  "source": "cowrie",
+  "raw_event_type": "cowrie.command.input",
+  "event_type": "command.executed",
+  "session_id": "example-session",
+  "network": {
+    "source_ip": "192.0.2.10",
+    "source_port": 40000,
+    "destination_ip": "192.0.2.20",
+    "destination_port": 22,
+    "protocol": "ssh"
+  },
+  "identity": {
+    "username": "example-user",
+    "credential_type": "unknown",
+    "credential_present": false
+  },
+  "details": {"command": "whoami"}
+}
+
