@@ -20,6 +20,6 @@ jobs:
           args: >-
             --no-progress
             --exclude-path evidence
+            --exclude '.*PASTE_IMAGE_URL_HERE_.*'
             './**/*.md'
           fail: true
-
