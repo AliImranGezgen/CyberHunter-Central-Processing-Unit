@@ -1,0 +1,6 @@
+cyberhunter-cowrie.service - CyberHunter Cowrie SSH Honeypot
+Loaded: loaded
+Enabled: enabled
+Active: active (running)
+Main process: twistd
+Service user: cyberdecoy

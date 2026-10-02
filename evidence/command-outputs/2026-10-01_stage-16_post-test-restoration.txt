@@ -1,0 +1,54 @@
+=== Stage 16 Ana Firmware Geri Yükleme Kontrolü ===
+Tarih: 2026-10-01
+
+=== ESP32 başlangıç çıktısı ===
+
+ROLELER=KAPALI ESIK=BEKLENIYOR
+CYBERHUNTER AES-256-GCM I2C HAZIR
+ADRES=0x08 SDA=21 SCL=22
+WIFI BAGLANIYOR=CyberHunter-Lab
+WIFI=OK IP=<ESP32_LOCAL_IP> RSSI=-57
+
+=== I2C Bus ===
+
+/dev/i2c-1
+Sahip: root
+Grup: i2cbridge
+İzinler: crw-rw----
+
+=== I2C Tarama ===
+
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:                         08 -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+
+ESP32 I2C adresi: 0x08
+I2C tarama sonucu: Başarılı
+
+=== Inbox Worker Timer ===
+
+Enabled: enabled
+Active: active
+
+=== Sistem durumu ===
+
+systemctl is-system-running: running
+
+=== Sonuç ===
+
+- Geçici röle test firmware'i kaldırıldı.
+- CyberHunter ana firmware'i yeniden yüklendi.
+- Röleler başlangıçta kapalı duruma getirildi.
+- ESP32 I2C adresi 0x08 olarak yeniden görüldü.
+- Kablosuz bağlantı yeniden kuruldu.
+- Inbox Worker timer etkin ve aktif durumdadır.
+- Raspberry Pi sistem durumu running olarak doğrulandı.
+
+Güvenlik notu:
+Gerçek ESP32 IP adresi <ESP32_LOCAL_IP> ile maskelenmiştir.

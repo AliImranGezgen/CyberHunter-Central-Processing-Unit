@@ -1,0 +1,56 @@
+=== Stage 17 Röle LED Karar Çıktıları ===
+Tarih: 2026-10-01
+Kontrollü risk skoru: 55
+
+=== Senaryo A — Eşik 50 ===
+
+AES_GCM=OK TYPE=1 LENGTH=276
+CONFIG=OK ESIK=50
+ISOLATION=ACTIVE
+RELAY_COIL=DEENERGIZED
+LED=OFF
+FEEDBACK=UNVERIFIED
+HTTP_CODE=201
+EVENT=<CONTROLLED_EVENT_ID_A> RISK=55 ESIK=50 DECISION=warning ISOLATION=ACTIVE
+TX TAMAMLANDI
+
+Karşılaştırma:
+55 >= 50
+
+Sonuç:
+- İzolasyon kararı aktif olarak üretildi.
+- Röle bobini enerjisiz duruma geçirildi.
+- Gösterge LED'leri kapandı.
+- Backend olayı HTTP 201 ile kabul etti.
+- Röle kontaklarının fiziksel geri bildirimi doğrulanmadı.
+
+=== Senaryo B — Eşik 70 ===
+
+AES_GCM=OK TYPE=1 LENGTH=276
+CONFIG=OK ESIK=70
+ISOLATION=PASSIVE
+RELAY_COIL=ENERGIZED
+LED=ON
+FEEDBACK=UNVERIFIED
+HTTP_CODE=201
+EVENT=<CONTROLLED_EVENT_ID_B> RISK=55 ESIK=70 DECISION=warning ISOLATION=PASSIVE
+TX TAMAMLANDI
+
+Karşılaştırma:
+55 < 70
+
+Sonuç:
+- İzolasyon kararı pasif olarak üretildi.
+- Röle bobini enerjili duruma geçirildi.
+- Gösterge LED'leri açıldı.
+- Backend olayı HTTP 201 ile kabul etti.
+- Röle kontaklarının fiziksel geri bildirimi doğrulanmadı.
+
+=== Doğrulama sınırı ===
+
+- FEEDBACK=UNVERIFIED sonucu röle kontağından elektriksel geri bildirim
+  alınmadığını göstermektedir.
+- Test, risk/eşik karşılaştırmasını ve GPIO röle komutunu doğrular.
+- Test gerçek Ethernet veya güç hattının kesildiğini kanıtlamaz.
+- Gerçek IP ve MAC adresleri kanıt içeriğine alınmamıştır.
+- Event ID değerleri anonimleştirilmiştir.

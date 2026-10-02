@@ -1,0 +1,41 @@
+CyberHunter Stage 08 — Publisher Çıktı Doğrulaması
+Tarih: 2026-10-01
+
+=== Publisher çıktı dizini ===
+/var/lib/cyberhunter/ai/output
+
+JSON dosyası: 0
+Geçerli JSON: 0
+Geçersiz JSON: 0
+Eksik alanlar: {}
+Fazladan alanlar: {}
+Boş veya geçersiz command: 0
+Geçersiz risk_score: 0
+Tekrarlanan event_id: 0
+
+Maskelenmiş örnek:
+Çıktı dosyası bulunamadı.
+
+=== Servis günlüğü gözlemi ===
+published: 0
+skipped: 0
+offset: 2900748
+
+Publisher beş saniyelik aralıklarla çalışmaya devam etmiş ve girdi
+dosyasında 2900748 bayt konumuna ulaşmıştır. Gözlem süresince yeni olay
+yayımlanmamıştır.
+
+=== Değerlendirme ===
+Publisher servisi aktiftir ve AI çıktı dosyasını takip etmektedir.
+Bununla birlikte doğrulama sırasında çıktı dizininde gerçek JSON olay
+dosyası bulunmamıştır.
+
+Bu nedenle aşağıdaki davranışlar henüz canlı çalışma çıktısıyla
+doğrulanmamıştır:
+
+- Dokuz alanlı nihai JSON dosyasının oluşturulması
+- Gerçek Credential_Attack olayının 55 risk skoruyla yayımlanması
+- Oturum bazlı tekilleştirmenin çalışma zamanı sonucu
+- Publisher çıktısının sonraki Bridge katmanına aktarılması
+
+Sonuç: Kısmi başarılı — canlı yayın testi bekleniyor.

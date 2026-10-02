@@ -1,0 +1,79 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: AI model ve ön işleme artefaktları
+
+=== Sınıflandırma Modeli ===
+
+Dosya:
+calibrated_tree.joblib
+
+Tam yol:
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/artifacts/prototype/calibrated_tree.joblib
+
+Boyut:
+3801802 bayt
+
+Değiştirilme zamanı:
+2026-07-30 14:08:17 +03:00
+
+SHA-256:
+7140e5e6f95d548034137ff2779025e7abc75be6d50921b1924d4cd6f9b7abaa
+
+=== Ön İşleme Artefaktı ===
+
+Dosya:
+preprocessing.joblib
+
+Tam yol:
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/artifacts/prototype/preprocessing.joblib
+
+Boyut:
+2217 bayt
+
+Değiştirilme zamanı:
+2026-07-30 13:42:36 +03:00
+
+SHA-256:
+2514958ab2b7579e170f5ee346329cb54b119757beb274f5c79591f25fd39a4a
+
+=== Model Seçimi ===
+
+Değerlendirme raporuna göre seçilen model:
+
+HistGradientBoosting
+
+Validation Macro F1:
+
+0.7679
+
+Kalibrasyon yöntemi:
+
+Sigmoid calibration
+
+Kalibrasyon öncesi multiclass log loss:
+
+0.4677
+
+Kalibrasyon sonrası multiclass log loss:
+
+0.4597
+
+=== Güvenlik Notu ===
+
+Joblib dosyaları Python pickle tabanlı nesneler içerebilir. Güvenilmeyen
+joblib dosyaları kod çalıştırma riski nedeniyle yüklenmemelidir.
+
+Model yüklenmeden önce:
+
+- Dosya kaynağı doğrulanmalıdır.
+- SHA-256 özeti kontrol edilmelidir.
+- Dosya izinleri sınırlandırılmalıdır.
+- Model yalnızca güvenilir çalışma ortamında yüklenmelidir.
+
+=== Sonuç ===
+
+Model artefaktı: ✅ Bulundu
+Ön işleme artefaktı: ✅ Bulundu
+Boyut bilgileri: ✅ Kaydedildi
+SHA-256 özetleri: ✅ Kaydedildi
+Model seçimi: ✅ Teknik raporda belgelendi
+Bağımsız model kaynağı doğrulaması: 🟡 Planlandı

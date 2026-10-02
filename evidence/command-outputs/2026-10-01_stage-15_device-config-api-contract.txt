@@ -1,0 +1,32 @@
+=== Stage 15 Device Config API Sözleşmesi ===
+OpenAPI sürümü: 3.1.0
+
+Endpoint: /api/device-config/{device_id}
+
+Yöntem: GET
+Operation ID: get_device_config_api_device_config__device_id__get
+Parametreler:
+- device_id | konum=path | zorunlu=True
+- X-CyberHunter-Device-Key | konum=header | zorunlu=False
+Cevap kodları: 200, 404, 422
+
+Yöntem: PUT
+Operation ID: update_device_config_api_device_config__device_id__put
+Parametreler:
+- device_id | konum=path | zorunlu=True
+- X-CyberHunter-Key | konum=header | zorunlu=False
+Request body:
+- Content-Type: application/json
+- Schema: #/components/schemas/DeviceConfigUpdate
+Cevap kodları: 200, 422
+
+Doğrulama sonucu:
+- Cihaz yapılandırmasını okuma endpoint'i tanımlıdır.
+- Cihaz yapılandırmasını güncelleme endpoint'i tanımlıdır.
+- Cihaz kimliği URL path parametresi olarak taşınmaktadır.
+- Okuma ve güncelleme işlemleri ayrı HTTP yöntemleriyle tanımlanmıştır.
+
+Güvenlik notu:
+OpenAPI belgesinde anahtar başlıkları zorunlu görünmemektedir. Üretim
+ortamında endpoint erişiminin zorunlu kimlik doğrulama ve yetkilendirmeyle
+korunduğu ayrıca doğrulanmalıdır.

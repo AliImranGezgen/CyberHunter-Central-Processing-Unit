@@ -1,0 +1,11 @@
+Komut:
+sudo ss -lntp | grep -E ':(22|2222|22222)\b'
+
+Anonimleştirilmiş çıktı:
+LISTEN 0 50   0.0.0.0:2222  0.0.0.0:* users:(("twistd",pid=<PID>,fd=11))
+LISTEN 0 4096 0.0.0.0:22222 0.0.0.0:* users:(("sshd",pid=<PID>,fd=3),("systemd",pid=1,fd=98))
+LISTEN 0 4096 [::]:22222    [::]:*    users:(("sshd",pid=<PID>,fd=4),("systemd",pid=1,fd=99))
+
+Sonuç:
+Cowrie port 2222 üzerinde, OpenSSH yönetim servisi port 22222 üzerinde
+dinlemektedir. Port 22 yönlendirmesi bu çıktı tarafından doğrulanmamıştır.

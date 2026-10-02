@@ -1,0 +1,29 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: OpenSSH systemd socket durumu
+
+=== Kullanılan Komut ===
+
+systemctl status ssh.socket --no-pager
+
+=== Anonimleştirilmiş Çıktı ===
+
+Unit: ssh.socket
+Description: OpenBSD Secure Shell server socket
+Loaded: loaded
+Enabled: enabled
+Active: active (running)
+Listen IPv4: 0.0.0.0:22222
+Listen IPv6: [::]:22222
+Triggered service: ssh.service
+
+=== Sonuç ===
+
+OpenSSH socket birimi aktif ve sistem başlangıcında etkin durumdadır.
+Socket yalnızca yönetim portu 22222 üzerinde dinlemektedir.
+
+Durumlar:
+
+ssh.socket: ✅ Aktif
+Başlangıç durumu: ✅ Enabled
+IPv4 port 22222: ✅ Dinleniyor
+IPv6 port 22222: ✅ Dinleniyor

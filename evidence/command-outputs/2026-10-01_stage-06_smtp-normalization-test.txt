@@ -1,0 +1,68 @@
+Kanıt tarihi: 2026-10-01
+Test türü: Kontrollü SMTP normalizasyon testi
+
+=== Test Verisi ===
+
+Bu testte gerçek kullanıcı, saldırgan veya e-posta verisi
+kullanılmamıştır.
+
+Kaynak IP:
+192.0.2.20
+
+Not:
+192.0.2.0/24 aralığı dokümantasyon ve örnekler için ayrılmıştır.
+
+Kaynak port:
+40123
+
+Ham olay türü:
+mail_from
+
+Yapay gönderici:
+sender@example.invalid
+
+Not:
+.invalid alan adı dokümantasyon ve test amacıyla kullanılmıştır.
+
+=== Çalıştırılan Uygulama ===
+
+Python:
+/usr/bin/python3
+
+PYTHONPATH:
+/opt/cyberhunter/workspaces/ai/src
+
+Modül:
+cyberhunter_ai.pipeline
+
+Kaynak:
+smtp
+
+=== Pipeline Sonucu ===
+
+BASARILI: 1 olay normalleştirildi
+
+=== Normalleştirilmiş Sonuç ===
+
+schema_version: 1.0
+source: smtp
+raw_event_type: mail_from
+event_type: smtp.sender.declared
+event_id UUID version: 5
+session_id present: True
+network protocol: smtp
+destination port: 2525
+mail_from preserved: sender@example.invalid
+
+=== Sonuç ===
+
+SMTP olay işleme: ✅ Başarılı
+Ortak şema üretimi: ✅ Başarılı
+mail_from eşlemesi: ✅ Başarılı
+UUIDv5 event_id: ✅ Başarılı
+Oturum kimliği: ✅ Üretildi
+SMTP protokolü: ✅ Doğrulandı
+Hedef port 2525: ✅ Doğrulandı
+Yapay gönderici alanı: ✅ Korundu
+
+Test yalnızca sentetik veri kullanılarak gerçekleştirilmiştir.

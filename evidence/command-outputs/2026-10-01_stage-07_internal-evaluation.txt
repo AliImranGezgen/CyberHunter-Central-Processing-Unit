@@ -1,0 +1,113 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: AI prototip iç değerlendirme özeti
+
+=== Değerlendirme Durumu ===
+
+Rapor tarihi:
+2026-07-30
+
+Rapor durumu:
+PROTOTYPE CANDIDATE / RASPBERRY AND COWRIE TESTS PENDING
+
+Haricî test durumu:
+not_collected
+
+Bu sonuçlar bağımsız Cowrie saha performansı değildir.
+
+=== Model Seçim Sonuçları ===
+
+Logistic Regression validation Macro F1:
+0.6252
+
+ANN validation Macro F1:
+0.7223
+
+Extra Trees validation Macro F1:
+0.7538
+
+HistGradientBoosting validation Macro F1:
+0.7679
+
+Seçilen model:
+HistGradientBoosting
+
+Model seçimi yalnızca validation bölümü kullanılarak yapılmıştır.
+Kalibrasyon ve haricî Cowrie verisi model seçiminde kullanılmamıştır.
+
+=== Kalibrasyon ve Rejection-Tuning ===
+
+Calibration-fit satır sayısı:
+14154
+
+Rejection-tuning satır sayısı:
+14153
+
+Kalibrasyon öncesi multiclass log loss:
+0.4677
+
+Kalibrasyon sonrası multiclass log loss:
+0.4597
+
+Kabul edilen sonuçlarda iç doğruluk:
+0.8823438466295609
+
+Yuvarlanmış değer:
+%88,23
+
+İç kapsama:
+0.914011163710874
+
+Yuvarlanmış değer:
+%91,40
+
+Unknown olarak döndürülen satır:
+1217
+
+=== Ölçümlerin Doğru Yorumu ===
+
+Validation Macro F1 değeri model seçim validation bölümüne aittir.
+
+%88,23 doğruluk, yalnızca rejection-tuning verisinde model tarafından
+kabul edilen satırlara aittir.
+
+%91,40 kapsama, aynı iç tuning verisinde kabul edilen satır oranıdır.
+
+1217 Unknown kayıt, güven eşiği, margin veya OOD kontrolü nedeniyle
+reddedilen iç tuning satırlarını ifade eder.
+
+Bu değerler:
+
+- Bağımsız test sonucu değildir.
+- Canlı Cowrie başarısı değildir.
+- Üretim doğruluğu değildir.
+- Saha saldırı tespit oranı değildir.
+
+=== Golden CommandInjection Kontrolü ===
+
+On resmî özellik uyumlu pencerenin sonucu:
+
+- 4 Web_Attack sonucu kabul edildi.
+- 4 Web_Attack adayı düşük güven nedeniyle reddedildi.
+- 2 Normal_Benign adayı düşük güven nedeniyle reddedildi.
+
+Bu sonuç rejection katmanının yanlış kesinliği azalttığını gösterir.
+Ancak gerçek dağıtım kabulü için yeni ve etiketli Cowrie oturumları
+gerekmektedir.
+
+=== Desteklenmeyen Ölçüm ===
+
+Daha önce dokümantasyada belirtilen %82,12 ham doğruluk değerinin
+kaynak dosyası veya hesaplama kaydı bulunamamıştır.
+
+Bu değer doğrulanmış metrik olarak kullanılmamalıdır.
+
+=== Sonuç ===
+
+Validation Macro F1: ✅ %76,79
+Kabul edilenlerde iç doğruluk: ✅ %88,23
+İç kapsama: ✅ %91,40
+Unknown tuning satırı: ✅ 1217
+Kalibrasyon satır sayıları: ✅ Doğrulandı
+Haricî test: ⬜ Toplanmadı
+Bağımsız Cowrie değerlendirmesi: ⬜ Planlandı
+Ham doğruluk %82,12: 🔴 Doğrulanamadı

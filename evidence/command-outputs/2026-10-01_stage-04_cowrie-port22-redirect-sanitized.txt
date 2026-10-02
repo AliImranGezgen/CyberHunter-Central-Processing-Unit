@@ -1,0 +1,17 @@
+Komut:
+sudo nft list ruleset | grep -nE 'dport (22|2222)|redirect.*2222|22222'
+
+Anonimleştirilmiş ilgili kurallar:
+iifname "wlan0" tcp dport 2222 ct original proto-dst 22
+counter packets <COUNT> bytes <COUNT> accept
+
+iifname "wlan0" tcp dport 22
+counter packets <COUNT> bytes <COUNT> redirect to :2222
+
+Sonuç:
+wlan0 arayüzüne port 22 üzerinden gelen TCP bağlantıları port 2222'ye
+yönlendirilmektedir. Cowrie servisi port 2222 üzerinde dinlediği için
+port 22 saldırgana gösterilen sahte SSH giriş noktasıdır.
+
+OpenSSH yönetim servisi bu yönlendirmeden bağımsız olarak port 22222
+üzerinde çalışmaktadır.

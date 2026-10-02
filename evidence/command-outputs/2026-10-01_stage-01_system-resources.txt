@@ -1,0 +1,61 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Bellek ve depolama durumu
+
+=== Kullanılan Komutlar ===
+
+free -h
+df -h /
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
+
+=== Bellek ===
+
+Toplam bellek: 15 GiB
+Kullanılan bellek: 629 MiB
+Boş bellek: 14 GiB
+Önbellek: 679 MiB
+Kullanılabilir bellek: 14 GiB
+
+=== Swap ===
+
+Toplam swap: 0 B
+Kullanılan swap: 0 B
+Boş swap: 0 B
+
+=== Kök Dosya Sistemi ===
+
+Aygıt: /dev/mmcblk0p2
+Toplam boyut: 59 GB
+Kullanılan: 5.5 GB
+Kullanılabilir: 51 GB
+Kullanım oranı: %10
+Bağlama noktası: /
+
+=== Depolama Bölümleri ===
+
+mmcblk0
+Boyut: 59.6 GB
+
+mmcblk0p1
+Boyut: 512 MB
+Dosya sistemi: vfat
+Bağlama noktası: /boot/firmware
+
+mmcblk0p2
+Boyut: 59.1 GB
+Dosya sistemi: ext4
+Bağlama noktası: /
+
+=== Sonuç ===
+
+Raspberry Pi üzerinde yaklaşık 16 GB fiziksel belleğe karşılık gelen
+15 GiB kullanılabilir bellek doğrulanmıştır.
+
+Ubuntu Server, microSD kart üzerindeki ext4 kök dosya sisteminde
+çalışmaktadır. Kök dosya sisteminin kullanım oranı kanıt tarihinde
+%10 seviyesindedir.
+
+Aktif swap alanı bulunmamaktadır. Swap gereksinimi sistem yükü ve
+uzun süreli test sonuçlarına göre ayrıca değerlendirilecektir.
+
+128 GB USB bellek bu ölçüm sırasında bağlı veya algılanmış
+görünmemektedir.

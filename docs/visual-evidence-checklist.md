@@ -1,32 +1,36 @@
-# Görsel ve Kanıt Listesi
+# Kanıt Kapsam Matrisi
 
-Bu dosya Stage 1–19 tamamlandıktan sonra çekilecek/eklenecek kanıtların merkez listesidir. Stage dosyalarındaki ilgili `PASTE_IMAGE_URL_HERE_...` değerini yalnızca yüklediğiniz görsel URL'siyle değiştirin.
+Bu matris, her stage için repoda bulunan kanıt türünü ve kalan kabul boşluğunu
+özetler. Ayrıntılı bağlantılar ilgili stage belgesindedir. Dosya adları
+`YYYY-MM-DD_stage-NN_...` biçimindedir.
 
-| Öncelik | Stage | Kanıt | Format | URL anahtarı |
-|---:|---:|---|---|---|
-| 1 | 1 | Raspberry Pi 5, güç ve depolama düzeni | Fotoğraf | `STAGE_01_RASPBERRY_SETUP` |
-| 1 | 2 | `ss -lntp`, port 22 reddi, 22222 başarı | PNG/TXT | `STAGE_02_SSH_PORTS` |
-| 2 | 3 | Python sürümleri ve sanal ortam yolları | TXT/PNG | `STAGE_03_PYTHON_ENVS` |
-| 1 | 4 | Cowrie login/command olayı, IP maskeli | TXT/PNG | `STAGE_04_COWRIE_EVENT` |
-| 2 | 5 | Capture servis durumu ve PCAP dizini | TXT/PNG | `STAGE_05_PACKET_CAPTURE` |
-| 1 | 6 | Aynı olayın ham/normalize karşılaştırması | TXT/PNG | `STAGE_06_NORMALIZER` |
-| 2 | 7 | AI confusion matrix/metrik raporu | PNG | `STAGE_07_AI_METRICS` |
-| 1 | 8 | Publisher'ın atomik JSON dosyası | TXT/PNG | `STAGE_08_PUBLISHER` |
-| 1 | 9 | outbox/inbox/archive/rejected dizinleri | PNG | `STAGE_09_BRIDGE_QUEUES` |
-| 1 | 10 | Pi–ESP32 SDA/SCL/GND bağlantısı | Fotoğraf | `STAGE_10_I2C_WIRING` |
-| 1 | 11 | Frame/AES-GCM başarı çıktısı | PNG/TXT | `STAGE_11_AES_GCM` |
-| 1 | 12 | ESP32 response + aynı event_id | PNG/TXT | `STAGE_12_ESP32_RESPONSE` |
-| 1 | 13 | HTTPS POST ve 2xx cevabı | PNG/TXT | `STAGE_13_BACKEND_POST` |
-| 1 | 14 | PostgreSQL satırı + dashboard kaydı | PNG | `STAGE_14_DASHBOARD` |
-| 1 | 15 | Dashboard eşik ayarı + GET config | PNG | `STAGE_15_THRESHOLD` |
-| 1 | 16 | Röle kartı, GPIO ve besleme | Fotoğraf | `STAGE_16_RELAY_WIRING` |
-| 1 | 17 | Düşük/yüksek riskte LED durumları | Video/PNG | `STAGE_17_LED_BEHAVIOR` |
-| 1 | 18 | Arduino build ve Serial Monitor | PNG/TXT | `STAGE_18_ARDUINO_BUILD` |
-| 1 | 19 | Tek event_id'nin tüm katmanlarda izi | PNG/TXT | `STAGE_19_E2E_TRACE` |
+| Stage | Hedef kanıt | Mevcut durum | Kalan boşluk |
+|---:|---|---|---|
+| 1 | Pi, işletim sistemi, kaynak ve sıcaklık | ✅ 4 çıktı + 1 fotoğraf | Uzun süreli termal test |
+| 2 | SSH efektif ayarları ve portlar | ✅ 4 çıktı | UFW/rollback ayrı görev |
+| 3 | Python ortamları ve servis bağları | ✅ 3 çıktı | Sistem Python servislerini taşıma |
+| 4 | Cowrie port 22 yönlendirmesi ve olay | ✅ 4 çıktı + 1 ekran görüntüsü | Kontrollü login/komut oturumu |
+| 5 | Capture servisi, PCAP ve korelasyon | ✅ 4 çıktı | Saklama/rotasyon politikası |
+| 6 | Normalizer servis ve olay doğrulaması | ✅ 3 çıktı + repo testleri | İki Cowrie türü için özel eşleme |
+| 7 | AI servis, model, metrik ve runtime | ✅ 4 çıktı | Bağımsız etiketli saha testi/model kartı |
+| 8 | Publisher servis, sözleşme ve canlı aktarım | ✅ 3 çıktı + 2 test sonucu | Tam kaynak ve bağımsız birim testleri |
+| 9 | Kuyruk, teslim, retry ve rejected | ✅ 3 çıktı + 2 test sonucu | Eksik runtime kaynaklarının dışa aktarımı |
+| 10 | I²C bağlantı ve şifreli roundtrip | ✅ 2 çıktı + 1 test + 4 fotoğraf | Uzun süre/gürültü testi |
+| 11 | AES-GCM ve negatif doğrulama | ✅ 1 çıktı + 1 test | Replay/anahtar döndürme testi |
+| 12 | Şema ve ESP32 response | ✅ 3 çıktı + 1 test | Secret provisioning prosedürü |
+| 13 | Backend POST ve `2xx` | ✅ 1 çıktı + 1 test | TLS doğrulaması ve kalıcı endpoint |
+| 14 | API, PostgreSQL ve dashboard | ✅ 3 çıktı + 1 test + 1 ekran görüntüsü | Açık tekrar-gönderme idempotency testi |
+| 15 | Eşik API'si ve fail-safe | ✅ 3 çıktı + 1 test + 2 görsel | İlk açılışta config kesintisi testi |
+| 16 | Röle kanalları ve restorasyon | ✅ 2 çıktı + 1 test + 1 fotoğraf | Kontak sürekliliği/yük testi |
+| 17 | Eşik altı/üstü röle LED davranışı | ✅ 1 çıktı + 1 test + 3 görsel | Gerçek hat izolasyonu |
+| 18 | Temiz firmware derleme/runtime | ✅ 1 ekran görüntüsü | Kaynak güvenliği ve provisioning |
+| 19 | Tek `event_id` ile tam zincir | ⚠️ Parçalı stage kanıtları var | Cowrie → dashboard ortak kabul kaydı |
 
-## Dosya adlandırma
+## Otomatik kontrol
 
-`YYYY-MM-DD_stage-NN_konu_kanit-turu.ext`; tarih bilinmiyorsa `undated_...`.
+```bash
+python scripts/validation/audit_repository.py
+```
 
-Komut çıktısını mümkünse ekran görüntüsü yerine `.txt` olarak ekleyin. Kullanıcı adı, ev dizini, IP, MAC, SSID, token, parola ve gerçek saldırgan verilerini temizleyin.
-
+Komut yapısal hatalarda başarısız olur. Stage 19 gibi bilinçli kanıt boşlukları
+uyarı olarak kalır; donanım veya saha kanıtı uydurulmaz.

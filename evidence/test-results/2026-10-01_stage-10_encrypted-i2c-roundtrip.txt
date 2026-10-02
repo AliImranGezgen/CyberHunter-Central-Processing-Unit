@@ -1,0 +1,82 @@
+CyberHunter Stage 10 — Şifreli Çift Yönlü I2C Testi
+Tarih: 2026-10-01
+Test olayı: evt-stage09-20261001T122857Z
+Kapsam: Raspberry Pi Inbox Worker -> ESP32 -> Raspberry Pi
+
+Test amacı:
+Bir Bridge olayının ESP32'ye frame'ler hâlinde gönderildiğini, ESP32 cevabının
+yeniden birleştirilip AES-GCM ile doğrulandığını ve cevabın başlangıç olayıyla
+event_id üzerinden eşleştiğini göstermek.
+
+İlk deneme:
+
+  ESP32 bağlantısı                 : Kuruldu
+  ESP32 cevap üretti               : Evet
+  Cevap processed alanı            : false
+  Worker sonucu                    : retry_scheduled
+  Deneme sayısı                    : 1
+
+Worker, processed değeri true olmadığı için olayı başarı saymadı ve yeniden
+deneme planladı.
+
+İkinci deneme — gönderim:
+
+  TX message_id                    : 0x8796
+  JSON uzunluğu                    : 250 bayt
+  AES-GCM blob uzunluğu            : 282 bayt
+  TX frame sayısı                  : 15
+  Frame 0-13 payload uzunluğu      : 20 bayt
+  Frame 14 payload uzunluğu        : 2 bayt
+  ESP32 SEND                       : OK
+
+İkinci deneme — cevap:
+
+  RX message_id                    : 0x0003
+  RX AES-GCM blob uzunluğu         : 187 bayt
+  RX frame sayısı                  : 10
+  Frame 0-8 payload uzunluğu       : 20 bayt
+  Frame 9 payload uzunluğu         : 7 bayt
+  FRAME REASSEMBLY                 : OK
+  AES-GCM AUTH                     : OK
+  AES-GCM DECRYPT                  : OK
+  EVENT_ID MATCH                   : OK
+
+ESP32 uygulama cevabı:
+
+  event_id                         : evt-stage09-20261001T122857Z
+  device_id                        : esp32-cyberhunter-01
+  input_risk_score                 : 0
+  esp32_risk_score                 : 0
+  decision                         : safe
+  processed                        : true
+
+Kuyruk sonucu:
+
+  Worker durumu                    : success
+  Toplam deneme                    : 2
+  Inbox'ta test olayı              : Bulunmadı
+  Rejected'da test olayı           : Bulunmadı
+  Archive'da test olayı            : Bulundu
+  Arşiv dosyası boyutu             : 251 bayt
+
+Değerlendirme:
+
+  - Raspberry Pi'den ESP32'ye çok-frame'li gönderim başarılıdır.
+  - ESP32 cevabı eksiksiz yeniden birleştirilmiştir.
+  - AES-GCM kimlik doğrulaması ve şifre çözme başarılıdır.
+  - Cevap içindeki event_id gönderilen olayla eşleşmiştir.
+  - processed=false cevabı başarı kabul edilmemiştir.
+  - processed=true sonrasında olay archive dizinine taşınmıştır.
+
+Not:
+TX ve RX message_id değerlerinin farklı olması beklenen davranıştır; bunlar
+iki ayrı frame mesajını tanımlar. Uçtan uca korelasyon event_id üzerinden
+yapılmıştır.
+
+Kapsam sınırı:
+Bu test I2C mesajlaşmasını doğrular. Röle kontaklarını, fiziksel güç kesmeyi
+ve elektriksel izolasyonu doğrulamaz.
+
+Gizlilik:
+AES anahtarı, parola, token, gerçek ağ adresi ve özel kimlik bilgisi bu kanıta
+eklenmemiştir.

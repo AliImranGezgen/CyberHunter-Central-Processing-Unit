@@ -1,0 +1,50 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: PCAP dosya metadata doğrulaması
+
+=== Depolama Dizini ===
+
+/var/lib/cyberhunter/ai/captures/
+
+=== Aktif Yakalama Dosyası ===
+
+Dosya:
+capture-20261001T113737Z.pcap.part
+
+Durum:
+Aktif tcpdump işlemi tarafından yazılıyor.
+
+=== Kapanmış Dosya Örnekleri ===
+
+Dosya: capture-20261001T110237Z.pcap
+Boyut: 25380 bayt
+Durum: Paket verisi içeriyor
+
+Dosya: capture-20261001T110737Z.pcap
+Boyut: 5250 bayt
+Durum: Paket verisi içeriyor
+
+Dosya: capture-20261001T111737Z.pcap
+Boyut: 5250 bayt
+Durum: Paket verisi içeriyor
+
+Dosya: capture-20261001T111237Z.pcap
+Boyut: 24 bayt
+Durum: Yalnızca PCAP dosya başlığı; paket yakalanmamış
+
+=== Değerlendirme ===
+
+24 bayt büyüklüğündeki PCAP dosyaları geçerli bir PCAP başlığı içermekle
+birlikte ağ paketi içermemektedir.
+
+24 bayttan büyük dosyalar yakalama zaman aralığında filtreyle eşleşen
+paketlerin bulunduğunu göstermektedir.
+
+Aktif ve kapanmış dosya ayrımı: ✅ Doğrulandı
+PCAP dosya üretimi: ✅ Doğrulandı
+Paket içeren PCAP: ✅ Doğrulandı
+Boş zaman aralığı PCAP'leri: ✅ Gözlemlendi
+
+=== Güvenlik Notu ===
+
+Ham PCAP dosyaları GitHub reposuna eklenmemelidir. Bu kanıt dosyası
+yalnızca dosya adı, boyut ve durum bilgisi içerir.

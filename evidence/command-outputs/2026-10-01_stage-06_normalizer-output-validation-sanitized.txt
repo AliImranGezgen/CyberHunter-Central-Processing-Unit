@@ -1,0 +1,92 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Cowrie normalizasyon çıktısı doğrulaması
+
+=== Dosya Sayımları ===
+
+Ham Cowrie olayı:
+56
+
+Normalleştirilmiş Cowrie olayı:
+56
+
+Dönüşüm oranı:
+56 / 56
+
+=== JSONL Doğrulaması ===
+
+Toplam geçerli JSON olayı: 56
+Geçersiz JSON satırı: 0
+UUIDv5 event_id sayısı: 56
+Eksik event_id sayısı: 0
+Tekrarlanan event_id sayısı: 0
+command.executed sayısı: 2
+details.command bulunan olay: 2
+unknown değer sayısı: 242
+
+=== Üst Seviye Şema Alanları ===
+
+details
+event_id
+event_type
+identity
+network
+raw_event_type
+schema_version
+sensor
+session_id
+source
+timestamp
+
+=== Kaynak Dağılımı ===
+
+cowrie: 56
+
+=== En Sık Normalleştirilmiş Olay Türleri ===
+
+unknown: 30
+connection.opened: 5
+client.version.detected: 5
+ssh.key_exchange: 5
+connection.closed: 5
+command.executed: 2
+authentication.success: 1
+terminal.size.detected: 1
+session.parameters.detected: 1
+session.recording.closed: 1
+
+=== Unknown Olay İncelemesi ===
+
+Toplam event_type=unknown olayı:
+30
+
+Ham olay türleri:
+
+cowrie.command.failed: 28
+cowrie.client.var: 2
+
+=== Değerlendirme ===
+
+Ham ve normalleştirilmiş olay sayıları eşittir.
+
+Bütün çıktı satırları geçerli JSON nesneleridir. Her olayda UUIDv5
+biçiminde event_id bulunmaktadır. Eksik veya tekrarlanan event_id
+görülmemiştir.
+
+İki cowrie.command.input olayı command.executed olarak eşlenmiş ve her
+iki olayda komut details.command alanında korunmuştur.
+
+unknown değerleri eksik isteğe bağlı alanlar için kullanılan kontrollü
+varsayılan değerdir. Bununla birlikte cowrie.command.failed ve
+cowrie.client.var olayları için özel olay türü eşlemeleri henüz
+tanımlanmamıştır.
+
+=== Sonuç ===
+
+JSONL geçerliliği: ✅ Doğrulandı
+Ham/çıktı olay sayısı: ✅ Eşit
+UUIDv5 kimlikleri: ✅ Doğrulandı
+Eksik event_id: ✅ Bulunmadı
+Tekrarlanan event_id: ✅ Bulunmadı
+Komut eşlemesi: ✅ Doğrulandı
+Eksik alan varsayılanı: ✅ Uygulandı
+Olay türü kapsamı: 🟡 İki ham olay türü için genişletilmeli

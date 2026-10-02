@@ -1,0 +1,28 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: SSH ve honeypot dinleme portları
+
+=== Kullanılan Komut ===
+
+sudo ss -lntp | grep -E ':(22|2222|22222)\b'
+
+=== Anonimleştirilmiş Çıktı ===
+
+LISTEN 0 50   0.0.0.0:2222   0.0.0.0:*   process=twistd
+LISTEN 0 4096 0.0.0.0:22222  0.0.0.0:*   process=sshd/systemd
+LISTEN 0 4096 [::]:22222     [::]:*      process=sshd/systemd
+
+=== Sonuç ===
+
+Cowrie servisi port 2222 üzerinde dinlemektedir.
+OpenSSH yönetim servisi port 22222 üzerinde dinlemektedir.
+Port 22 üzerinde doğrudan çalışan bir OpenSSH dinleyicisi bulunmamaktadır.
+
+Dışarıdan port 22'ye gelen trafik nftables tarafından Cowrie'nin
+port 2222 dinleyicisine yönlendirilmektedir.
+
+Durumlar:
+
+Cowrie port 2222: ✅ Dinleniyor
+OpenSSH port 22222 IPv4: ✅ Dinleniyor
+OpenSSH port 22222 IPv6: ✅ Dinleniyor
+Port 22 OpenSSH dinleyicisi: ✅ Bulunmuyor

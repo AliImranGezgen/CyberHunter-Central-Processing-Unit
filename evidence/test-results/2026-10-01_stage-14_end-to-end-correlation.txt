@@ -1,0 +1,90 @@
+CyberHunter Stage 14 — Uçtan Uca Olay Korelasyonu
+Tarih: 2026-10-01
+Referans olay: evt-stage09-20261001T122857Z
+
+Amaç:
+Raspberry Pi'den başlatılan kontrollü olayın ESP32, FastAPI, PostgreSQL ve
+dashboard katmanlarında aynı event_id ile takip edilebildiğini doğrulamak.
+
+Korelasyon tablosu:
+
+  Raspberry Pi olay event_id
+    evt-stage09-20261001T122857Z
+    Durum: Eşleşti
+
+  ESP32 cevap event_id
+    evt-stage09-20261001T122857Z
+    Durum: Eşleşti
+
+  FastAPI GET response event_id
+    evt-stage09-20261001T122857Z
+    HTTP: 200
+    Durum: Eşleşti
+
+  PostgreSQL security_events event_id
+    evt-stage09-20261001T122857Z
+    Kayıt sayısı: 1
+    Durum: Eşleşti
+
+  PostgreSQL esp32_assessments event_id
+    evt-stage09-20261001T122857Z
+    Kayıt sayısı: 1
+    Durum: Eşleşti
+
+  PostgreSQL response_actions event_id
+    evt-stage09-20261001T122857Z
+    Kayıt sayısı: 1
+    Durum: Eşleşti
+
+  Dashboard event_id
+    evt-stage09-20261001T122857Z
+    Durum: Eşleşti
+
+Ortak olay değerleri:
+
+  destination_port    : 22
+  protocol            : ssh
+  event_type          : normal_benign
+  tactic              : benign
+  input_risk_score    : 0
+  esp32_risk_score    : 0
+  decision            : safe
+  processed           : true
+  device_id           : esp32-cyberhunter-01
+  response action     : log_only
+  action status       : recorded
+
+Dashboard doğrulaması:
+
+- Event ID görünmektedir.
+- AI risk değeri 0 görünmektedir.
+- ESP32 risk değeri 0 görünmektedir.
+- Karar safe görünmektedir.
+- Hedef 22/ssh görünmektedir.
+- Olay türü normal_benign görünmektedir.
+- Kontrollü test komutu görünmektedir.
+- Taktik benign görünmektedir.
+- Device ID esp32-cyberhunter-01 görünmektedir.
+- Bir aksiyon kaydı bulunduğu görünmektedir.
+
+Event ID benzersizliği:
+
+- security_events.event_id UNIQUE
+- esp32_assessments.event_id UNIQUE
+- Referans olay ilgili tablolarda birer kez bulunmaktadır.
+
+Bilinen sözleşme uyumsuzluğu:
+
+Firmware POST /api/security-events/query kullanmaktadır. Çalışan backend bu
+endpoint'i sağlamamakta; tek olay sorgusu GET
+/api/security-events/{event_id} üzerinden yapılmaktadır. Olay oluşturma POST
+/api/security-events akışı bu uyumsuzluktan etkilenmemiştir.
+
+Sonuç:
+Kontrollü güvenlik olayı Raspberry Pi, ESP32, FastAPI, PostgreSQL ve dashboard
+katmanlarında aynı event_id ile uçtan uca ilişkilendirilmiştir.
+
+Gizlilik:
+Dashboard'da görünen 192.0.2.10 adresi dokümantasyon için ayrılmış TEST-NET-1
+adresidir. Gerçek saldırgan veya özel ağ adresi değildir. Backend alan adı,
+veritabanı parolası ve tokenlar kanıta eklenmemiştir.

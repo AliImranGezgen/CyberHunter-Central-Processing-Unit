@@ -1,0 +1,64 @@
+CyberHunter Stage 14 — Event ID Benzersizlik Kontrolü
+Tarih: 2026-10-01
+Veritabanı: cyberhunter
+
+Amaç:
+Aynı event_id değerinin yinelenmesini engelleyen PostgreSQL indekslerini ve
+referans olayın mevcut kayıt sayısını doğrulamak.
+
+Doğrulanan indeksler:
+
+1. public.security_events
+
+   İndeks: pk_security_events
+   Tür   : UNIQUE INDEX
+   Alan  : event_id
+
+2. public.esp32_assessments
+
+   İndeks: pk_esp32_assessments
+   Tür   : UNIQUE INDEX
+   Alan  : event_id
+
+3. public.response_actions
+
+   İndeks: uq_response_actions_decision
+   Tür   : UNIQUE INDEX
+   Alanlar:
+     event_id
+     device_id
+     action
+     policy_version
+
+4. public.security_events sıralama indeksi
+
+   İndeks: ix_security_events_received_at_event_id
+   Tür   : Normal INDEX
+   Alanlar:
+     received_at DESC
+     event_id DESC
+
+Referans olay kayıt sayıları:
+
+  public.security_events      : 1
+  public.esp32_assessments    : 1
+  public.response_actions     : 1
+
+Referans event_id:
+
+  evt-stage09-20261001T122857Z
+
+Değerlendirme:
+
+- security_events tablosunda event_id benzersizdir.
+- esp32_assessments tablosunda event_id benzersizdir.
+- response_actions tablosunda karar kaydı birleşik alanlarla benzersizdir.
+- Referans olay her üç tabloda da tam olarak bir kez bulunmaktadır.
+
+Sonuç:
+Temel olay ve ESP32 değerlendirmesi için veritabanı seviyesinde event_id
+benzersizliği doğrulanmıştır. Referans olayda yinelenen kayıt görülmemiştir.
+
+Gizlilik:
+Veritabanı kullanıcı adı, parola, bağlantı URL'si ve hassas olay içeriği bu
+kanıta eklenmemiştir.

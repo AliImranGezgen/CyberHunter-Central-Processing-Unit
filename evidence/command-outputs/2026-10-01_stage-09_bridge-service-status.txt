@@ -1,0 +1,64 @@
+CyberHunter Stage 09 — Bridge Servis Durumu
+Tarih: 2026-10-01
+
+=== Kurulu systemd birimleri ===
+cyberhunter-ai-output-transfer.path: enabled
+cyberhunter-ai-output-transfer.service: static
+cyberhunter-ai-output-transfer.timer: enabled
+
+cyberhunter-bridge-outbox-sender.path: enabled
+cyberhunter-bridge-outbox-sender.service: static
+cyberhunter-bridge-outbox-sender.timer: enabled
+
+cyberhunter-ai-bridge-receiver.service: enabled
+cyberhunter-inbox-worker.service: disabled
+cyberhunter-inbox-worker.timer: enabled
+
+=== Çalışma modeli ===
+cyberhunter-ai-output-transfer.service:
+  Type: oneshot
+  User: root
+  Çalıştırılan dosya:
+  /usr/local/sbin/cyberhunter-ai-output-transfer
+
+cyberhunter-bridge-outbox-sender.service:
+  Type: oneshot
+  User: cyberbridge
+  Group: cyberbridge
+  Çalıştırılan dosya:
+  /opt/cyberhunter/apps/bridge/bridge_outbox_sender.py
+
+cyberhunter-ai-bridge-receiver.service:
+  User: cyberbridge
+  Group: cyberbridge
+  Durum: active/running
+  Çalıştırılan dosya:
+  /opt/cyberhunter/apps/bridge/ai_bridge_receiver.py
+
+cyberhunter-inbox-worker.service:
+  Type: oneshot
+  User: cyberbridge
+  Group: cyberbridge
+  Çalıştırılan Python:
+  /opt/cyberhunter/venvs/bridge/bin/python
+  Çalıştırılan dosya:
+  /opt/cyberhunter/apps/bridge/inbox_worker.py
+
+=== Zamanlama ===
+AI output transfer:
+  PathChanged=/var/lib/cyberhunter/ai/output
+  Tekrar aralığı: 5 dakika
+
+Bridge outbox sender:
+  Tekrar aralığı: 1 dakika
+
+Inbox Worker:
+  Normal sorgulama aralığı: 15 saniye
+
+=== Açıklama ===
+Oneshot servislerin işlemleri tamamlandıktan sonra inactive/dead görünmesi
+normaldir. Bu servisler path veya timer birimleri tarafından yeniden
+çalıştırılır.
+
+Inbox Worker timer kontrollü test sırasında otomatik gönderimi engellemek
+amacıyla elle durdurulmuş, Worker servisi tek seferlik başlatılmıştır.

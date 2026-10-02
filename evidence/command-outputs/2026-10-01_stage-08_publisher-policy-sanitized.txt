@@ -1,0 +1,70 @@
+CyberHunter Stage 08 — Publisher Politikası
+Tarih: 2026-10-01
+
+=== Veri yolları ===
+AI girdi dosyası:
+/var/log/cyberhunter/ai/network_ai.jsonl
+
+Publisher durum dosyası:
+/var/log/cyberhunter/ai/frontend_publisher_state.json
+
+Olay çıktı dizini:
+/var/lib/cyberhunter/ai/output
+
+Tarama aralığı:
+5 saniye
+
+=== Yayın politikası ===
+publish_unknown: true
+publish_normal_benign: true
+deduplicate_by_cowrie_session: true
+session_selection_policy: highest_risk_then_latest_detected_else_unknown
+
+Bir Cowrie oturumunun tamamlanmış sayılması için gereken olay:
+cowrie.session.closed
+
+=== Protokol eşlemesi ===
+22: SSH
+2222: SSH
+
+=== Taktik ve risk politikası ===
+Normal_Benign:
+  tactic: Benign
+  risk_score: 0
+
+Reconnaissance:
+  tactic: Reconnaissance
+  risk_score: 25
+
+Credential_Attack:
+  tactic: Credential Access
+  risk_score: 55
+
+DoS_DDoS:
+  tactic: Impact
+  risk_score: 85
+
+Web_Attack:
+  tactic: Initial Access
+  risk_score: 65
+
+Malware_Botnet:
+  tactic: Command and Control
+  risk_score: 90
+
+Spoofing_MITM:
+  tactic: Credential Access
+  risk_score: 75
+
+Unknown:
+  tactic: Unknown
+  risk_score: 15
+
+=== Sonuç ===
+Publisher yapılandırmasında Credential_Attack olay sınıfının
+Credential Access taktiğine ve 55 risk skoruna dönüştürüldüğü
+doğrulanmıştır.
+
+Oturum bazlı tekilleştirme etkin durumdadır. Onaylanan seçim politikası,
+önce güvenilir sınıflandırmayı, ardından en yüksek risk skorunu ve daha
+sonra en yeni olay zamanını dikkate almaktadır.

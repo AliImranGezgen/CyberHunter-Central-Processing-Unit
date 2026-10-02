@@ -1,0 +1,105 @@
+CyberHunter Stage 12 — Anonimleştirilmiş ESP32 Firmware İnceleme Özeti
+Tarih: 2026-10-01
+İncelenen dosya: CyberHunterV2.ino
+Dosya boyutu: 13239 bayt
+Satır sayısı: 53
+SHA-256: 2a1e8e8418c2d3e60b692060fbf2c69fa36cc794b11b6365ef675ac0760e61dd
+
+Amaç:
+ESP32 olay doğrulama ve cevap üretme mantığını hassas yapılandırma değerlerini
+açıklamadan belgelemek.
+
+Kaynak tarama özeti:
+
+  JSON ayrıştırma çağrısı                 : Bulundu
+  invalid_json hata kodu                  : Bulundu
+  invalid_schema hata kodu                : Bulundu
+  invalid_value hata kodu                 : Bulundu
+  aes_auth_failed hata kodu               : Bulundu
+  AES-GCM authenticated decrypt           : Bulundu
+  AES-GCM encrypt-and-tag                  : Bulundu
+  Dokuz olay alanının tür kontrolü         : Bulundu
+  Timestamp doğrulama fonksiyonu           : Bulundu
+  Port aralığı kontrolü                    : Bulundu
+  Risk skoru aralığı kontrolü              : Bulundu
+  Event ID uzunluk kontrolü                : Bulundu
+  Command uzunluk kontrolü                 : Bulundu
+  Altı alanlı ESP32 cevap üretimi          : Bulundu
+
+ESP32 olay şeması:
+
+  event_id            : metin
+  timestamp           : metin
+  source_ip           : metin
+  destination_port    : tam sayı
+  protocol            : metin
+  event_type          : metin
+  command             : metin
+  tactic              : metin
+  risk_score          : tam sayı
+
+ESP32 değer kontrolleri:
+
+  event_id            : boş değil, en fazla 40 karakter
+  timestamp           : UTC Z son ekli tarih-saat biçimi
+  command             : en fazla 256 karakter
+  destination_port    : 1–65535
+  risk_score          : 0–100
+
+Timestamp kontrolü:
+
+- YYYY-MM-DDTHH:MM:SSZ temel biçimi kontrol edilir.
+- İsteğe bağlı kesirli saniye bölümü desteklenir.
+- Ay, gün, saat, dakika ve saniye sınırları kontrol edilir.
+- Şubat ve artık yıl gün sayısı hesaplanır.
+
+Hata kodları:
+
+  invalid_json      : JSON ayrıştırma veya kök nesne hatası
+  invalid_schema    : Eksik alan veya yanlış veri türü
+  invalid_value     : Değer, uzunluk veya aralık hatası
+  aes_auth_failed   : AES-GCM doğrulama/şifre çözme hatası
+
+ESP32 cevap alanları:
+
+  event_id
+  device_id
+  input_risk_score
+  esp32_risk_score
+  decision
+  processed
+
+processed anlamı:
+processed alanı, backend HTTP kayıt işleminin başarılı 2xx cevapla
+tamamlanmasına göre belirlenmektedir. Yalnızca JSON ayrıştırmasının başarılı
+olduğu anlamına gelmez.
+
+Frame doğrulamaları:
+
+- 32 bayt frame uzunluğu
+- Magic ve protokol sürümü
+- Frame türü
+- CRC-16
+- Message ID
+- Sequence
+- Toplam frame sayısı
+- Payload uzunluğu
+- Toplam blob uzunluğu
+- Eksiksiz yeniden birleştirme
+
+Kritik güvenlik bulgusu:
+Ham firmware kaynak kodunda Wi-Fi kimlik bilgileri, servis URL'leri ve 32
+baytlık AES anahtarı gömülü olarak bulunmaktadır. Değerlerin kendileri bu
+kanıta alınmamıştır.
+
+Ham CyberHunterV2.ino dosyası mevcut hâliyle public repoya eklenmemelidir.
+Gerçek değerler daha önce public olarak paylaşıldıysa Wi-Fi parolası ve AES
+anahtarı değiştirilmelidir.
+
+Kapsam sınırı:
+Kaynak dosyanın çalışan ESP32 binary'siyle kriptografik olarak aynı olduğu
+attestation yöntemiyle doğrulanmamıştır. Derleme ve karta yükleme kanıtı Stage
+18 kapsamında ayrıca ele alınacaktır.
+
+Gizlilik:
+SSID, Wi-Fi parolası, URL değerleri ve AES anahtarı bu dosyaya yazılmamıştır.

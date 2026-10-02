@@ -1,0 +1,53 @@
+CyberHunter Stage 09 — Retry ve Rejected Davranışı
+Tarih: 2026-10-01
+
+=== Başlangıç durumu ===
+Inbox Worker timer daha önce kontrollü olarak kapalı tutulmuştur.
+Publisher ve Bridge receiver tarafından inbox dizinine beş olay
+yerleştirilmiştir.
+
+ESP32 inaktif durumdayken Worker timer yeniden başlatılmıştır.
+
+=== Gözlenen davranış ===
+Birinci olay:
+event_id: evt-20261001T110250Z-vrrova
+
+Deneme 1:
+status: retry_scheduled
+error: OSError [Errno 121] Remote I/O error
+
+Deneme 2:
+status: retry_scheduled
+error: OSError [Errno 121] Remote I/O error
+
+Deneme 3:
+status: rejected
+error: OSError [Errno 121] Remote I/O error
+
+İkinci olay:
+event_id: evt-20261001T110403Z-v2hhyf
+
+Deneme 1:
+status: retry_scheduled
+
+Deneme 2:
+status: retry_scheduled
+
+Deneme 3:
+status: rejected
+
+=== Sonuç ===
+ESP32 inaktif durumdayken I2C iletişimi Remote I/O error ile başarısız
+olmuştur. Inbox Worker olayları ilk iki başarısız denemede inbox kuyruğuna
+geri taşımış, üçüncü başarısız denemede rejected dizinine taşımıştır.
+
+Bu test aşağıdaki davranışları doğrulamıştır:
+
+- Başarısız olay kaybolmamaktadır.
+- Deneme sayısı state dosyasında tutulmaktadır.
+- Geçici teslim hataları otomatik olarak yeniden denenmektedir.
+- Sonsuz yeniden deneme uygulanmamaktadır.
+- Maksimum üç deneme sonrasında olay inceleme için rejected dizinine alınmaktadır.
+
+Not: Rejected dizini yalnızca şema hatalarını içermez. Teslim denemesi sınırını
+aşan I2C ve ESP32 iletişim hataları da rejected dizinine taşınır.

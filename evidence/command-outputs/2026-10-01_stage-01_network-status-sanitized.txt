@@ -1,0 +1,42 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Anonimleştirilmiş ağ durumu
+
+=== Kullanılan Komutlar ===
+
+systemctl is-active NetworkManager
+systemctl is-active systemd-networkd
+cat /sys/class/net/wlan0/operstate
+networkctl status wlan0 --no-pager | grep -E 'State:|Online state:'
+
+=== Ağ Yönetim Servisleri ===
+
+NetworkManager: inactive
+systemd-networkd: active
+
+=== Kablosuz Ağ Arayüzü ===
+
+Arayüz: wlan0
+Operasyon durumu: up
+Yapılandırma durumu: routable (configured)
+Çevrim içi durumu: online
+Yerel IP: <RASPBERRY_LOCAL_IP>
+
+=== Sonuç ===
+
+Kablosuz ağ arayüzünün aktif, yapılandırılmış, yönlendirilebilir ve
+çevrim içi durumda olduğu doğrulanmıştır.
+
+Ubuntu Server ağ yapılandırması NetworkManager yerine systemd-networkd
+tarafından yönetilmektedir. Bu durum Ubuntu Server ortamı için geçerli
+bir ağ yönetim yapısıdır.
+
+Gerçek IP adresi, MAC adresi, ağ geçidi, DNS adresi ve kablosuz ağ
+parolası güvenlik amacıyla kanıt dosyasına eklenmemiştir.
+
+Durumlar:
+
+systemd-networkd: ✅ Aktif
+wlan0: ✅ Up
+Yapılandırma: ✅ Configured
+Yönlendirilebilirlik: ✅ Routable
+Çevrim içi durum: ✅ Online

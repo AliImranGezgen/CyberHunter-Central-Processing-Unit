@@ -1,0 +1,49 @@
+CyberHunter Stage 11 — Kriptografik Uygulama Doğrulaması
+Tarih: 2026-10-01
+Kanıt türü: Kaynak kod yapısı ve çalışma zamanı meta verisi
+
+Amaç:
+Raspberry Pi I2C istemcisinin AES-256 için uygun anahtar uzunluğunu
+kullandığını ve gerçek anahtar değerini göstermeden kriptografik uygulama
+yapısını doğrulamak.
+
+=== Stage 11 Kriptografik Uygulama ===
+İstemci dosyası: /opt/cyberhunter/apps/bridge/esp32_tests/esp32_client.py
+Dosya izinleri: 0o670
+KEY nesne türü: bytes
+KEY uzunluğu: 32 bayt
+AES-256 anahtar uzunluğu: True
+KEY tanımı bulundu: True
+KEY tanım biçimi: bytes
+Anahtar kaynak kod içinde literal: False
+build_blob çağrıları:
+ - AESGCM
+ - Call.encode
+ - Call.encrypt
+ - Call.to_bytes
+ - ValueError
+ - bytes
+ - event.get
+ - isinstance
+ - json.dumps
+ - len
+ - os.urandom
+
+Değerlendirme:
+
+- KEY çalışma zamanında bytes türündedir.
+- Anahtar 32 bayt, yani 256 bittir.
+- Anahtar uzunluğu AES-256 gereksinimini karşılamaktadır.
+- AST tabanlı kontrolde kaynak kod içinde doğrudan literal anahtar tespit
+  edilmemiştir.
+- build_blob fonksiyonu AESGCM şifrelemesini ve os.urandom tabanlı rastgele
+  veri üretimini kullanmaktadır.
+- İstemci dosyasının izin modu 0670 olarak görülmüştür.
+
+Kapsam sınırı:
+Bu kontrol anahtarın gerçek değerini, oluşturulma zamanını, ESP32'ye nasıl
+provision edildiğini veya anahtar döndürme prosedürünü doğrulamaz.
+
+Gizlilik:
+Gerçek AES anahtarı, nonce, authentication tag, parola, token, IP adresi ve
+MAC adresi bu kanıta eklenmemiştir.
