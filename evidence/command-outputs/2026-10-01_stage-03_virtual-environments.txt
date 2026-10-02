@@ -1,0 +1,91 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Python sanal ortam doğrulaması
+
+=== Ana Sanal Ortam Dizinleri ===
+
+decoy
+Sahip: root
+Grup: cyberdecoy
+İzin: 750
+
+bridge
+Sahip: root
+Grup: cyberbridge
+İzin: 750
+
+ai
+Sahip: root
+Grup: cyberai
+İzin: 750
+
+=== Sistem Python ===
+
+Yol: /usr/bin/python3
+Sürüm: Python 3.12.3
+sys.prefix: /usr
+sys.base_prefix: /usr
+Sanal ortam: False
+
+=== Decoy Sanal Ortamı ===
+
+Yol: /opt/cyberhunter/venvs/decoy/bin/python
+Sürüm: Python 3.11.15
+sys.prefix: /opt/cyberhunter/venvs/decoy
+sys.base_prefix: /opt/python/3.11.15
+Sanal ortam: True
+
+=== Bridge Sanal Ortamı ===
+
+Yol: /opt/cyberhunter/venvs/bridge/bin/python
+Sürüm: Python 3.11.15
+sys.prefix: /opt/cyberhunter/venvs/bridge
+sys.base_prefix: /opt/python/3.11.15
+Sanal ortam: True
+
+=== AI Sanal Ortamı ===
+
+Yol: /opt/cyberhunter/venvs/ai/bin/python
+Sürüm: Python 3.11.15
+sys.prefix: /opt/cyberhunter/venvs/ai
+sys.base_prefix: /opt/python/3.11.15
+Sanal ortam: True
+
+=== AI Workspace Sanal Ortamı ===
+
+Yol: /opt/cyberhunter/workspaces/ai/.venv/bin/python
+Sürüm: Python 3.11.15
+sys.prefix: /opt/cyberhunter/workspaces/ai/.venv
+sys.base_prefix: /opt/python/3.11.15
+Sanal ortam: True
+
+=== SMTP Sanal Ortamı ===
+
+Yol: /opt/cyberhunter-smtp/venv/bin/python
+Sürüm: Python 3.12.3
+sys.prefix: /opt/cyberhunter-smtp/venv
+sys.base_prefix: /usr
+Sanal ortam: True
+
+=== Sonuç ===
+
+Decoy, Bridge ve AI için Python 3.11.15 tabanlı sanal ortamlar
+oluşturulmuştur.
+
+AI servislerinin aktif yapılandırması, merkezi AI sanal ortamı yerine
+workspace altında bulunan ayrı .venv ortamını kullanmaktadır.
+
+SMTP honeypot, sistem Python 3.12.3 tabanlı ayrı bir sanal ortam
+kullanmaktadır.
+
+Doğrulanan sanal ortamlar:
+
+Decoy: ✅ Python 3.11.15
+Bridge: ✅ Python 3.11.15
+AI merkezi ortam: ✅ Python 3.11.15
+AI workspace ortamı: ✅ Python 3.11.15
+SMTP ortamı: ✅ Python 3.12.3
+
+Not:
+Sanal ortamların farklı dizinlerde bulunması doğrudan bir hata değildir.
+Ancak bakım kolaylığı için dizin ve sürüm standardizasyonu
+değerlendirilmelidir.

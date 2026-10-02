@@ -1,0 +1,60 @@
+CyberHunter Stage 11 — AES-GCM Pozitif ve Negatif Doğrulama Testi
+Tarih: 2026-10-01
+Test türü: Yerel kriptografik davranış testi
+Test olayı: evt-stage11-crypto-test
+
+Amaç:
+AES-256-GCM ile oluşturulan blob'un doğru anahtarla çözülebildiğini; şifreli
+metin, authentication tag, nonce veya header değiştirildiğinde doğrulamanın
+başarısız olduğunu göstermek.
+
+=== Stage 11 AES-GCM Davranış Testi ===
+Anahtar uzunluğu: 32 bayt
+AES-256: True
+Nonce uzunluğu: 12 bayt
+Tag uzunluğu: 16 bayt
+Header uzunluğu: 4 bayt
+Plaintext uzunluğu: 229 bayt
+Şifreli blob uzunluğu: 261 bayt
+Ciphertext uzunluğu: 229 bayt
+Pozitif decrypt testi: True
+Plaintext blob içinde görünür: False
+Üretilen nonce sayısı: 64
+Benzersiz nonce sayısı: 64
+Tüm nonce değerleri benzersiz: True
+Benzersiz tag sayısı: 64
+Benzersiz şifreli blob sayısı: 64
+Ciphertext değişikliği reddedildi: True
+Tag değişikliği reddedildi: True
+Nonce değişikliği reddedildi: True
+Header değişikliği reddedildi: True
+
+Pozitif test değerlendirmesi:
+
+- Orijinal nonce, ciphertext, tag ve header ile plaintext başarıyla elde
+  edilmiştir.
+- Plaintext şifreli blob içinde açık metin olarak bulunmamıştır.
+- Aynı olay için yapılan 64 üretimin tamamında farklı nonce elde edilmiştir.
+- 64 üretimin tamamında farklı GCM tag ve farklı şifreli blob oluşmuştur.
+
+Negatif test değerlendirmesi:
+
+- Ciphertext içindeki tek bitlik değişiklik InvalidTag ile reddedilmiştir.
+- Authentication tag içindeki tek bitlik değişiklik reddedilmiştir.
+- Nonce içindeki tek bitlik değişiklik reddedilmiştir.
+- AAD olarak kullanılan dört baytlık header içindeki değişiklik reddedilmiştir.
+
+Sonuç:
+Kontrollü test kapsamında AES-GCM gizlilik, bütünlük ve kimlik doğrulama
+kontrolleri beklenen şekilde çalışmıştır.
+
+Kapsam sınırı:
+64 örnekli nonce testi uygulamanın bu örneklemde benzersiz nonce ürettiğini
+gösterir. Gelecekteki bütün mesajlar için mutlak benzersizlik garantisi olarak
+yorumlanmamalıdır. Replay koruması ve anahtar yaşam döngüsü bu testin dışında
+kalır.
+
+Gizlilik:
+Gerçek AES anahtarı, üretilen nonce değerleri ve authentication tag değerleri
+kanıt dosyasına yazılmamıştır. Testte dokümantasyon için ayrılmış 192.0.2.0/24
+adres bloğundan yapay bir IP kullanılmıştır.

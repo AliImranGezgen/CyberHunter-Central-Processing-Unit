@@ -1,0 +1,66 @@
+CyberHunter Stage 14 — Backend API Korelasyonu
+Tarih: 2026-10-01
+Backend türü: FastAPI
+OpenAPI sürümü: 3.1.0
+
+Amaç:
+Raspberry Pi tarafından başlatılan kontrollü olayın çalışan FastAPI üzerinden
+aynı event_id ile alınabildiğini doğrulamak.
+
+Çalışan endpoint sözleşmesi:
+
+  GET  /api/security-events
+  POST /api/security-events
+  GET  /api/security-events/summary
+  GET  /api/security-events/{event_id}
+
+Referans olay sorgusu:
+
+  Yöntem  : GET
+  Endpoint: /api/security-events/{event_id}
+  event_id: evt-stage09-20261001T122857Z
+
+=== Stage 14 Backend API Korelasyonu ===
+HTTP durumu: 200
+Aranan event_id: evt-stage09-20261001T122857Z
+Event ID eşleşmesi: True
+
+{
+  "event_id": "evt-stage09-20261001T122857Z",
+  "timestamp": null,
+  "source_ip": "<SANITIZED>",
+  "destination_port": 22,
+  "protocol": "ssh",
+  "event_type": "normal_benign",
+  "command_present": true,
+  "command_length": 33,
+  "input_risk_score": 0,
+  "esp32_risk_score": null,
+  "decision": null,
+  "processed": null,
+  "device_id": null
+}
+
+Null alanların değerlendirilmesi:
+Güvenli çıktı betiği timestamp, ESP32 değerlendirmesi, karar, processed ve
+device_id alanlarını API cevabının üst seviyesinde aramıştır. PostgreSQL
+kayıtları bu değerlerin event_timestamp alanında ve esp32_assessments
+tablosunda bulunduğunu doğrulamıştır. Bu nedenle null değerler veritabanında
+veri kaybı olarak yorumlanmamıştır.
+
+Firmware query sözleşmesi kontrolü:
+
+  İstek : POST /api/security-events/query
+  Sonuç : HTTP 405 Method Not Allowed
+  Allow : GET
+
+Çalışan OpenAPI sözleşmesinde /api/security-events/query endpoint'i yoktur.
+Firmware query özelliği mevcut backend sürümüyle uyumlu değildir.
+
+Sonuç:
+Referans olay backend API'den HTTP 200 ile alınmış ve event_id değeri Raspberry
+Pi/ESP32 test olayıyla eşleşmiştir.
+
+Gizlilik:
+Backend alan adı, yerel IP, kaynak IP, ham komut, parola, token ve bağlantı
+bilgileri bu kanıta eklenmemiştir.

@@ -1,0 +1,28 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: CPU sıcaklık ölçümü
+
+=== Kullanılan Komut ===
+
+awk '{printf "Sıcaklık: %.1f°C\n", $1/1000}' \
+  /sys/class/thermal/thermal_zone0/temp
+
+=== Ölçüm ===
+
+Ölçüm zamanı: 2026-10-01T14:25:05+03:00
+CPU sıcaklığı: 45.8°C
+Aktif fan: Bulunmuyor
+
+=== Sonuç ===
+
+Raspberry Pi CPU sıcaklığı ölçüm anında 45.8°C olarak okunmuştur.
+
+Bu değer anlık bir ölçümdür; uzun süreli yük veya termal kararlılık
+testinin sonucu değildir. Sistemde aktif fan bulunmadığı için sıcaklık
+düzenli olarak izlenmelidir.
+
+Durumlar:
+
+Sıcaklık sensörü: ✅ Okunabilir
+Anlık sıcaklık ölçümü: ✅ Tamamlandı
+Uzun süreli termal test: ⬜ Planlandı
+Aktif soğutma değerlendirmesi: 🟡 Devam ediyor

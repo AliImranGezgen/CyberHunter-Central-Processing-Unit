@@ -1,0 +1,38 @@
+CyberHunter Stage 12 — Raspberry Pi ESP32 Cevap Kabul Sözleşmesi
+Tarih: 2026-10-01
+Kanıt türü: Çalışan Inbox Worker kaynak kontrolü
+
+Amaç:
+Raspberry Pi'nin ESP32 cevabını başarı kabul etmek için uyguladığı koşulları
+doğrulamak.
+
+Doğrulanan kaynak mantığı:
+
+  if response.get("event_id") != event_id:
+      raise RuntimeError("ESP32 response event_id mismatch")
+
+  if response.get("processed") is not True:
+      raise RuntimeError(
+          f"ESP32 processed is not true: {response}"
+      )
+
+Başarı koşulları:
+
+1. ESP32 cevabındaki event_id gönderilen olayın event_id değeriyle aynı
+   olmalıdır.
+2. processed alanı boolean true olmalıdır.
+
+Başarısızlık davranışı:
+
+- event_id uyuşmazlığı çalışma zamanı hatası oluşturur.
+- processed değeri true değilse olay başarılı kabul edilmez.
+- Geçici teslim hataları Inbox Worker retry politikasına aktarılır.
+- Başarı koşulları sağlanmadan olay archive dizinine taşınmaz.
+
+Gerçek test ilişkisi:
+Stage 9 testinin ilk denemesinde processed=false cevabı retry_scheduled ile
+sonuçlanmıştır. İkinci denemede processed=true ve eşleşen event_id alınmış,
+olay success durumuyla archive dizinine taşınmıştır.
+
+Gizlilik:
+Bu kanıt gerçek ağ adresi, parola, token veya kriptografik anahtar içermez.

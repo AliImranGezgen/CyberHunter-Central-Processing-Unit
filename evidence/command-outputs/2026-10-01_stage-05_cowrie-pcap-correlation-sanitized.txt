@@ -1,0 +1,109 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Cowrie olayı ve PCAP korelasyonu
+
+=== Kontrollü Bağlantı ===
+
+Hedef: Raspberry Pi port 22
+Kaynak IP: <CONTROLLED_CLIENT_IP>
+Hedef IP: <RASPBERRY_LOCAL_IP>
+İstemci kaynak portu: <CLIENT_EPHEMERAL_PORT>
+Protokol: SSH
+
+=== Cowrie Olayları ===
+
+Olay:
+cowrie.client.kex
+
+UTC zamanı:
+2026-10-01T11:18:22.538978Z
+
+Europe/Istanbul zamanı:
+2026-10-01T14:18:22.538978+03:00
+
+Olay:
+cowrie.session.closed
+
+UTC zamanı:
+2026-10-01T11:18:22.563699Z
+
+Europe/Istanbul zamanı:
+2026-10-01T14:18:22.563699+03:00
+
+Cowrie oturum kimliği:
+<SESSION_ID>
+
+=== PCAP Dosyası ===
+
+Dosya:
+capture-20261001T111737Z.pcap
+
+Depolama dizini:
+/var/lib/cyberhunter/ai/captures/
+
+Filtre:
+tcp port 22 or tcp port 2222
+
+Yakalanan paket sayısı:
+24
+
+=== Anonimleştirilmiş Paket Özeti ===
+
+2026-10-01 14:18:22.327636
+<CONTROLLED_CLIENT_IP>.<CLIENT_EPHEMERAL_PORT>
+→ <RASPBERRY_LOCAL_IP>.22
+TCP SYN
+
+2026-10-01 14:18:22.332498
+<CONTROLLED_CLIENT_IP>.<CLIENT_EPHEMERAL_PORT>
+→ <RASPBERRY_LOCAL_IP>.22
+SSH istemci sürüm bildirimi: <SSH_CLIENT_BANNER>
+
+2026-10-01 14:18:22.335334
+<RASPBERRY_LOCAL_IP>.22
+→ <CONTROLLED_CLIENT_IP>.<CLIENT_EPHEMERAL_PORT>
+SSH honeypot sürüm bildirimi: <HONEYPOT_SSH_BANNER>
+
+2026-10-01 14:18:22.563327
+<CONTROLLED_CLIENT_IP>.<CLIENT_EPHEMERAL_PORT>
+→ <RASPBERRY_LOCAL_IP>.22
+TCP FIN
+
+2026-10-01 14:18:22.563483
+<RASPBERRY_LOCAL_IP>.22
+→ <CONTROLLED_CLIENT_IP>.<CLIENT_EPHEMERAL_PORT>
+TCP FIN
+
+=== Korelasyon Değerlendirmesi ===
+
+Cowrie anahtar değişimi olayı:
+14:18:22.538978
+
+PCAP SSH paketleri:
+14:18:22.327636–14:18:22.566179
+
+Cowrie oturum kapanışı:
+14:18:22.563699
+
+Cowrie olayı ile PCAP paketleri aynı saniye, kaynak adres, hedef adres,
+hedef port ve protokol üzerinden eşleştirilmiştir.
+
+Cowrie oturum kapanış zamanı ile TCP FIN paketlerinin zamanı milisaniye
+düzeyinde uyumludur.
+
+=== Sonuç ===
+
+Kontrollü port 22 SSH bağlantısı hem Cowrie JSON olay günlüğünde hem de
+PCAP dosyasında görülmüştür.
+
+Port 22 trafik yakalama: ✅ Doğrulandı
+Cowrie olay üretimi: ✅ Doğrulandı
+Zaman korelasyonu: ✅ Doğrulandı
+Kaynak/hedef korelasyonu: ✅ Doğrulandı
+Oturum kapanış korelasyonu: ✅ Doğrulandı
+
+Not:
+PCAP dosyasında Cowrie oturum kimliği bulunmaz. Eşleştirme zaman,
+kaynak/hedef adresi, port ve protokol bilgileri üzerinden yapılmıştır.
+
+Ham IP adresleri, geçici istemci portu, SSH istemci sürümü ve Cowrie
+oturum kimliği anonimleştirilmiştir.

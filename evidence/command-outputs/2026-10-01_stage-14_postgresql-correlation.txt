@@ -1,0 +1,62 @@
+CyberHunter Stage 14 — PostgreSQL Olay Korelasyonu
+Tarih: 2026-10-01
+Veritabanı: cyberhunter
+PostgreSQL durumu: accepting connections
+
+Amaç:
+Referans olayın temel olay, ESP32 değerlendirmesi ve cevap aksiyonu
+tablolarında aynı event_id ile bulunduğunu doğrulamak.
+
+Referans event_id:
+
+  evt-stage09-20261001T122857Z
+
+=== public.security_events ===
+
+  event_id            : evt-stage09-20261001T122857Z
+  event_timestamp     : 2026-10-01T15:28:57+03:00
+  received_at         : 2026-10-01T15:35:08.93566+03:00
+  destination_port    : 22
+  protocol            : ssh
+  event_type          : normal_benign
+  tactic              : benign
+  input_risk_score    : 0
+  hash_version        : 1
+
+Kaynak IP ve command alanları kanıt çıktısından çıkarılmıştır.
+
+=== public.esp32_assessments ===
+
+  event_id            : evt-stage09-20261001T122857Z
+  device_id           : esp32-cyberhunter-01
+  received_at         : 2026-10-01T15:35:08.93566+03:00
+  esp32_risk_score    : 0
+  esp32_decision      : safe
+  esp32_processed     : true
+  hash_version        : 1
+
+=== public.response_actions ===
+
+  event_id            : evt-stage09-20261001T122857Z
+  device_id           : esp32-cyberhunter-01
+  action              : log_only
+  status              : recorded
+  severity            : normal
+  risk_score          : 0
+  policy_version      : 1
+  attempt_count       : 0
+  decision_reason     : Risk is below the warning threshold
+
+Korelasyon sonucu:
+
+  security_events event_id      : Eşleşti
+  esp32_assessments event_id    : Eşleşti
+  response_actions event_id     : Eşleşti
+
+Sonuç:
+Temel güvenlik olayı, ESP32 değerlendirmesi ve cevap aksiyonu PostgreSQL'de
+aynı event_id üzerinden ilişkilendirilmiştir.
+
+Gizlilik:
+Gerçek IP, ham komut, payload hash, veritabanı parolası ve bağlantı URL'si bu
+kanıta eklenmemiştir.

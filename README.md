@@ -8,16 +8,17 @@ CyberHunter'ın Raspberry Pi 5 tabanlı Merkezi İşleme Birimi (Central Process
 
 | Alan | Durum | Son doğrulama kaynağı |
 |---|---|---|
-| Raspberry Pi ve Ubuntu kurulumu | ✅ Tamamlandı | Dökümenterya, Stage 1 |
-| Yönetim SSH ayrıştırması | ✅ Tamamlandı | Dökümenterya, Stage 2 |
-| Cowrie + paket yakalama | ✅ Tamamlandı | Dökümenterya, Stage 4–5 |
-| Normalizer + AI + Publisher | ✅ Tamamlandı | Dökümenterya, Stage 6–8 |
-| Bridge kuyruk hattı | ✅ Tamamlandı | Dökümenterya, Stage 9 |
-| I²C + AES-GCM + ACK | ✅ Tamamlandı | Dökümenterya, Stage 10–12 |
-| Backend/dashboard entegrasyonu | ✅ Arayüz doğrulandı | Dökümenterya, Stage 13–15 |
-| Röle prototipi | ✅ LED/kanal testi tamamlandı | Dökümenterya, Stage 16–17 |
-| Güncel ESP32 firmware | 🟡 Derleme/yükleme bekliyor | Dökümenterya, Stage 18 |
-| Uçtan uca son test | ⬜ Planlandı | Dökümenterya, Stage 19 |
+| Raspberry Pi ve Ubuntu kurulumu | ✅ Tamamlandı | Stage 1 kanıtları |
+| Yönetim SSH ayrıştırması | ✅ Tamamlandı | Stage 2 kanıtları |
+| Python ortam ayrıştırması | 🟡 Kısmi | Stage 3 servis bağlama kanıtı |
+| Cowrie + paket yakalama | ✅ Tamamlandı | Stage 4–5 kanıtları |
+| Normalizer + AI + Publisher | 🟡 Prototip doğrulandı | Stage 6–8 kanıtları; bağımsız AI saha testi açık |
+| Bridge kuyruk hattı | ✅ Tamamlandı | Stage 9 teslim/retry kanıtları |
+| I²C + AES-GCM + ACK | ✅ Prototip doğrulandı | Stage 10–12 kanıtları |
+| Backend/dashboard entegrasyonu | ✅ Arayüz doğrulandı | Stage 13–15 kanıtları |
+| Röle prototipi | ✅ LED/kanal testi tamamlandı | Stage 16–17 kanıtları |
+| Güncel ESP32 firmware | 🟡 Derleme/runtime doğrulandı | Stage 18; secret/TLS iyileştirmeleri açık |
+| Uçtan uca son test | 🟡 Kısmi | Stage 19; tek Cowrie event ID zinciri açık |
 
 ## Sistem akışı
 
@@ -33,7 +34,7 @@ flowchart TD
 
 ## Stage dokümantasyonu
 
-Tüm gelişim süreci [Stage dizininde](docs/stages/README.md) 19 ayrı aşama olarak belgelenmiştir. Her aşamada amaç, yapılan işler, doğrulama, güvenlik notları, sorumluluk sınırı ve hazır görsel URL alanı bulunur.
+Tüm gelişim süreci [Stage dizininde](docs/stages/README.md) 19 ayrı aşama olarak belgelenmiştir. Aşamalarda amaç, yapılan işler, doğrulama, güvenlik notları, sorumluluk sınırı ve mevcut kanıt bağlantıları bulunur.
 
 ## Gerçek kaynak kodlar
 
@@ -68,7 +69,17 @@ ruff check .
 
 ## Kanıt ve görseller
 
-Görsel dosyalar şimdilik eklenmemiştir. Her stage dosyasında `PASTE_IMAGE_URL_HERE_...` biçiminde hazır URL alanı bulunur. Çekilecek görsellerin toplu listesi [Görsel Kanıt Listesi](docs/visual-evidence-checklist.md) dosyasındadır.
+Stage 1–18 için anonimleştirilmiş komut çıktısı, test sonucu veya görsel kanıt
+bulunur. Stage 19 için parçalı zincirlerin kanıtları mevcut olsa da tek bir
+Cowrie olayının bütün hat boyunca izlendiği bağımsız kabul kaydı henüz yoktur.
+Kapsam ve açıklar [Kanıt Listesi](docs/visual-evidence-checklist.md) ile
+[Güncel Durum](CURRENT_STATUS.md) dosyalarında tutulur.
+
+Repo yapısını yerelde denetlemek için:
+
+```bash
+python scripts/validation/audit_repository.py
+```
 
 ## Güvenlik
 

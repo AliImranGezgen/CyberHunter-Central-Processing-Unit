@@ -22,6 +22,7 @@ jobs:
         run: python -m pip install -e '.[dev]'
       - name: Ruff
         run: ruff check .
+      - name: Documentation and evidence audit
+        run: python scripts/validation/audit_repository.py
       - name: Pytest
         run: pytest -q
-

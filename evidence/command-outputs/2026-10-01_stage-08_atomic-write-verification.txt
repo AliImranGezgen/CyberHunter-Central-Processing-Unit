@@ -1,0 +1,61 @@
+CyberHunter Stage 08 — Olay Sözleşmesi ve Atomik Yazma
+Tarih: 2026-10-01
+
+=== Publisher kaynak modülü ===
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/src/cyberhunter_ai/frontend_publisher.py
+
+=== Zorunlu olay alanları ===
+event_id
+timestamp
+source_ip
+destination_port
+protocol
+event_type
+command
+tactic
+risk_score
+
+=== Doğrulama davranışları ===
+- event_id onaylanmış biçimle eşleşmelidir.
+- event_id en fazla 40 UTF-8 bayt olabilir.
+- timestamp zaman dilimi içeren RFC3339 biçiminde olmalıdır.
+- timestamp UTC biçimine dönüştürülerek Z ile sonlandırılır.
+- source_ip geçerli bir IPv4 adresi olmalıdır.
+- destination_port tam sayı olmalıdır.
+- protocol boş olamaz.
+- event_type boş olamaz.
+- command en fazla 256 UTF-8 bayt olabilir.
+- tactic boş olamaz.
+- risk_score tam sayı ve 0–100 aralığında olmalıdır.
+
+=== Boş komut politikası ===
+Credential_Attack:
+No command captured; authentication activity only
+
+Diğer olay türleri:
+No command captured
+
+=== Atomik dosya yazımı ===
+Nihai dosya:
+<event_id>.json
+
+Geçici dosya:
+.<event_id>.json.tmp
+
+Publisher önce geçici dosyayı özel oluşturma modunda yazar. Yazma işlemi
+tamamlandıktan sonra os.replace() kullanarak geçici dosyayı nihai JSON
+dosyasına dönüştürür.
+
+Aynı event_id için nihai veya geçici dosya zaten bulunuyorsa işlem
+FileExistsError ile durdurulur.
+
+Publisher durum dosyası da geçici dosya ve os.replace() yöntemiyle
+güncellenmektedir.
+
+=== Sonuç ===
+Dokuz alanlı olay sözleşmesi, boş komut fallback davranışı ve atomik
+dosya yazma yöntemi kaynak kod incelemesiyle doğrulanmıştır.
+
+Not: Bu doğrulama kaynak kodun uyguladığı davranışı göstermektedir.
+Gerçek çalışma sırasında oluşturulmuş nihai JSON dosyası henüz
+gözlemlenmemiştir.

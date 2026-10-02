@@ -1,0 +1,30 @@
+CyberHunter Stage 09 — Publisher Olaylarının Bridge Inbox'a Aktarımı
+Tarih: 2026-10-01
+
+=== AI output transfer kayıtları ===
+Aktarıldı: evt-20261001T110250Z-vrrova.json
+Aktarıldı: evt-20261001T110403Z-v2hhyf.json
+Aktarıldı: evt-20261001T110434Z-9coz5u.json
+Aktarıldı: evt-20261001T111101Z-yvk6xo.json
+Aktarıldı: evt-20261001T111822Z-pkgr4i.json
+
+=== Bridge receiver kayıtları ===
+2026-10-01T11:08:04.827Z POST /v1/events HTTP 201
+2026-10-01T11:08:04.844Z POST /v1/events HTTP 201
+2026-10-01T11:08:04.876Z POST /v1/events HTTP 201
+2026-10-01T11:12:59.797Z POST /v1/events HTTP 201
+2026-10-01T11:22:59.873Z POST /v1/events HTTP 201
+
+=== Aktarım sonucu ===
+Publisher tarafından hazırlanmış beş olay dosyası AI output dizininden
+Bridge outbox kuyruğuna aktarılmıştır.
+
+Bridge sender olayları yerel receiver servisine göndermiştir. Receiver bütün
+isteklere HTTP 201 yanıtı vermiş ve olayları Bridge inbox dizinine atomik
+olarak yazmıştır.
+
+Aktarım sonrasında AI output ve Bridge outbox dizinlerinde işlenmeyi bekleyen
+olay kalmamıştır.
+
+Not: Outbox içerisindeki .sender.lock dosyası olay değildir. Eş zamanlı sender
+çalışmalarını engellemek amacıyla kullanılan kilit dosyasıdır.

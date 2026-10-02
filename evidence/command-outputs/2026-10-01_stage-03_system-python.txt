@@ -1,0 +1,31 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Sistem Python doğrulaması
+
+=== Kullanılan Komutlar ===
+
+command -v python3
+readlink -f "$(command -v python3)"
+python3 --version
+
+=== Çıktı ===
+
+Komut yolu: /usr/bin/python3
+Gerçek çalıştırıcı: /usr/bin/python3.12
+Python sürümü: 3.12.3
+
+sys.executable: /usr/bin/python3
+sys.prefix: /usr
+sys.base_prefix: /usr
+Sanal ortam: False
+
+=== Sonuç ===
+
+Ubuntu işletim sisteminin varsayılan Python çalıştırıcısı
+/usr/bin/python3 yolundadır ve Python 3.12.3 sürümünü kullanmaktadır.
+
+sys.prefix ve sys.base_prefix değerlerinin aynı olması, bu yorumlayıcının
+bir sanal ortam içinde çalışmadığını doğrulamaktadır.
+
+Sistem Python'u: ✅ Doğrulandı
+Python sürümü: ✅ 3.12.3
+Sanal ortam: Hayır

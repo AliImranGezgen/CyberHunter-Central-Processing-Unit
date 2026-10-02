@@ -1,0 +1,44 @@
+Test tarihi: 2026-10-01
+Test saati: 11:18 UTC / 14:18 Europe/Istanbul
+
+Amaç:
+Port 22 üzerinden oluşturulan kontrollü SSH bağlantısının Cowrie
+honeypot servisi tarafından işlendiğini doğrulamak.
+
+Uygulanan istemci komutu:
+
+ssh -p 22 \
+  -o PreferredAuthentications=none \
+  -o PubkeyAuthentication=no \
+  chproof-20261001@<RASPBERRY_LOCAL_IP>
+
+Anonimleştirilmiş Cowrie olayları:
+
+{
+  "eventid": "cowrie.client.kex",
+  "hassh": "<CLIENT_HASSH_FINGERPRINT>",
+  "message": "SSH client HASSH fingerprint detected",
+  "sensor": "cyberhunter-pi",
+  "timestamp": "2026-10-01T11:18:22.538978Z",
+  "src_ip": "192.168.X.X",
+  "session": "<SESSION_ID>",
+  "protocol": "ssh"
+}
+
+{
+  "eventid": "cowrie.session.closed",
+  "duration": "0.2",
+  "message": "Connection lost after 0.2 seconds",
+  "sensor": "cyberhunter-pi",
+  "timestamp": "2026-10-01T11:18:22.563699Z",
+  "src_ip": "192.168.X.X",
+  "session": "<SESSION_ID>",
+  "protocol": "ssh"
+}
+
+Sonuç:
+Port 22 üzerinden oluşturulan kontrollü SSH bağlantısı Cowrie tarafından
+işlenmiştir. Cowrie istemcinin anahtar değişim özelliklerini kaydetmiş ve
+aynı oturumun kapanış olayını üretmiştir.
+
+Bu test sırasında gerçek parola veya SSH anahtarı gönderilmemiştir.

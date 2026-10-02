@@ -1,0 +1,137 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: systemd servisleri ve Python ortamı eşleşmeleri
+
+=== Cowrie ===
+
+Servis: cyberhunter-cowrie.service
+Kullanıcı: cyberdecoy
+Grup: cyberdecoy
+Çalışma dizini: /var/lib/cyberhunter/decoy/cowrie
+Çalıştırıcı: /opt/cyberhunter/venvs/decoy/bin/cowrie
+Ortam: Decoy sanal ortamı
+Değerlendirme: İzole
+
+=== Inbox Worker ===
+
+Servis: cyberhunter-inbox-worker.service
+Kullanıcı: cyberbridge
+Grup: cyberbridge
+Çalışma dizini: /opt/cyberhunter/apps/bridge
+Çalıştırıcı: /opt/cyberhunter/venvs/bridge/bin/python
+Uygulama: /opt/cyberhunter/apps/bridge/inbox_worker.py
+Ortam: Bridge sanal ortamı
+Değerlendirme: İzole
+
+=== AI Analiz ===
+
+Servis: cyberhunter-ai.service
+Kullanıcı: cyberai
+Grup: cyberai
+Çalışma dizini: /opt/cyberhunter/workspaces/ai/network_ai_v2_linux
+Çalıştırıcı: /opt/cyberhunter/workspaces/ai/.venv/bin/python
+Modül: cyberhunter_ai.watch_pcap
+Ortam: AI workspace sanal ortamı
+Değerlendirme: İzole
+
+=== AI Publisher ===
+
+Servis: cyberhunter-ai-publisher.service
+Kullanıcı: cyberai
+Grup: cyberai
+Çalışma dizini: /opt/cyberhunter/workspaces/ai/network_ai_v2_linux
+Çalıştırıcı: /opt/cyberhunter/workspaces/ai/.venv/bin/python
+Modül: cyberhunter_ai.frontend_publisher
+Ortam: AI workspace sanal ortamı
+Değerlendirme: İzole
+
+=== SMTP Honeypot ===
+
+Servis: cyberhunter-smtp.service
+Kullanıcı: smtpot
+Grup: smtpot
+Çalışma dizini: /opt/cyberhunter-smtp/app
+Çalıştırıcı: /opt/cyberhunter-smtp/venv/bin/python
+Uygulama: /opt/cyberhunter-smtp/app/smtp_honeypot.py
+Ortam: SMTP sanal ortamı
+Değerlendirme: İzole
+
+=== AI Bridge Receiver ===
+
+Servis: cyberhunter-ai-bridge-receiver.service
+Kullanıcı: cyberbridge
+Grup: cyberbridge
+Çalışma dizini: /opt/cyberhunter/apps/bridge
+Çalıştırıcı: /usr/bin/python3
+Uygulama: /opt/cyberhunter/apps/bridge/ai_bridge_receiver.py
+Ortam: Sistem Python 3.12.3
+Değerlendirme: Sanal ortama geçiş bekleniyor
+
+=== Bridge Outbox Sender ===
+
+Servis: cyberhunter-bridge-outbox-sender.service
+Kullanıcı: cyberbridge
+Grup: cyberbridge
+Çalışma dizini: /opt/cyberhunter/apps/bridge
+Çalıştırıcı: /usr/bin/python3
+Uygulama: /opt/cyberhunter/apps/bridge/bridge_outbox_sender.py
+Ortam: Sistem Python 3.12.3
+Değerlendirme: Sanal ortama geçiş bekleniyor
+
+=== Normalizer ===
+
+Servis: cyberhunter-normalizer.service
+Kullanıcı: cybernormalize
+Grup: cybernormalize
+Çalışma dizini: /opt/cyberhunter/workspaces/ai
+Çalıştırıcı: /usr/bin/python3
+Modül: cyberhunter_ai.pipeline
+PYTHONPATH: /opt/cyberhunter/workspaces/ai/src
+Ortam: Sistem Python 3.12.3
+Değerlendirme: Sanal ortama geçiş bekleniyor
+
+=== AI Capture ===
+
+Servis: cyberhunter-ai-capture.service
+Kullanıcı: root
+Grup: root
+Çalıştırıcı: /usr/local/sbin/cyberhunter-ai-capture.sh
+Dosya türü: Bash script
+Shebang: #!/bin/bash
+Değerlendirme: Root gereksinimi ve Linux capability seçenekleri incelenmeli
+
+=== AI Output Transfer ===
+
+Servis: cyberhunter-ai-output-transfer.service
+Kullanıcı: root
+Grup: root
+Çalıştırıcı: /usr/local/sbin/cyberhunter-ai-output-transfer
+Dosya türü: Python script
+Shebang: #!/usr/bin/python3
+Ortam: Sistem Python 3.12.3
+Değerlendirme: Ayrı servis hesabı ve sanal ortam değerlendirilmelidir
+
+=== Genel Sonuç ===
+
+Sanal ortam kullanan servisler:
+
+- Cowrie
+- Inbox Worker
+- AI analiz
+- AI Publisher
+- SMTP honeypot
+
+Sistem Python'u kullanan servisler:
+
+- AI Bridge Receiver
+- Bridge Outbox Sender
+- Normalizer
+- AI Output Transfer
+
+Root hesabıyla çalışan bileşenler:
+
+- AI Capture
+- AI Output Transfer
+
+Python ortamlarının hazırlanması büyük ölçüde tamamlanmıştır. Ancak tüm
+Python servisleri henüz sanal ortamlara taşınmamış ve iki bileşenin
+yetkileri henüz en düşük yetki ilkesine göre daraltılmamıştır.

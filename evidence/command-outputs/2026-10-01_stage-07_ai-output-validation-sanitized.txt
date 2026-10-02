@@ -1,0 +1,186 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: AI JSONL çıktı doğrulaması
+
+=== Çıktı Dosyası ===
+
+Dosya:
+/var/log/cyberhunter/ai/network_ai.jsonl
+
+Boyut:
+2900748 bayt
+
+Satır sayısı:
+711
+
+Son değiştirilme zamanı:
+2026-10-01 14:22:56 +03:00
+
+=== JSON Doğrulaması ===
+
+Toplam geçerli çıktı:
+711
+
+Geçersiz JSON satırı:
+0
+
+=== Üst Seviye Alanlar ===
+
+action
+attack_class
+candidate_class
+class_id
+confidence
+cowrie
+feature_version
+features_received
+margin
+metadata
+ood_features_outside
+probabilities
+production_evidence
+reasons
+status
+timestamp
+
+=== Attack Class Dağılımı ===
+
+Credential_Attack:
+658
+
+Unknown:
+53
+
+=== Candidate Class Dağılımı ===
+
+Credential_Attack:
+711
+
+Açıklama:
+Bütün pencerelerde modelin ilk adayı Credential_Attack olmuştur. Güven,
+margin veya OOD kontrollerini geçemeyen 53 çıktı nihai attack_class
+alanında Unknown olarak işaretlenmiştir.
+
+=== Status Dağılımı ===
+
+detected:
+658
+
+unknown:
+53
+
+=== Action Dağılımı ===
+
+log_only:
+711
+
+AI çıktılarının tamamı yalnızca kayıt üretme modundadır.
+
+=== Feature Version ===
+
+2.0.0:
+711
+
+=== Cowrie Korelasyonu ===
+
+Cowrie kanıtı bulunan çıktı:
+711
+
+Bütün AI çıktılarında Cowrie korelasyon/evidence alanı bulunmaktadır.
+
+=== Çıktı Zaman Aralığı ===
+
+İlk çıktı:
+2026-07-30T14:35:25.738994+00:00
+
+Son çıktı:
+2026-10-01T11:22:56.954948+00:00
+
+Son çıktının Europe/Istanbul karşılığı:
+2026-10-01T14:22:56.954948+03:00
+
+=== Confidence Aralığı ===
+
+Minimum:
+0.44414260656297366
+
+Maksimum:
+0.9957998706820408
+
+=== Margin Aralığı ===
+
+Minimum:
+0.011276975675774126
+
+Maksimum:
+0.9938400975438193
+
+=== Girdi ve Özellik Akışı ===
+
+Teknik rapora göre model akışı:
+
+Kapanmış PCAP
+→ 39 ağ özelliği
+→ Ön işleme
+→ Kalibre edilmiş sınıflandırma
+→ Güven/margin/OOD kontrolleri
+→ attack_class veya Unknown
+
+event_input=normalized_only ayarı, olay korelasyonu sırasında yalnızca
+normalleştirilmiş Cowrie JSONL girdisinin kabul edilmesini zorunlu tutar.
+
+Normalleştirilmiş Cowrie girdisi:
+
+/var/lib/cyberhunter/ai/input/cowrie.normalized.jsonl
+
+PCAP dosyaları model özelliklerinin çıkarılmasında, normalleştirilmiş
+Cowrie olayları ise zaman, kaynak IP ve oturum bağlamının
+ilişkilendirilmesinde kullanılmaktadır.
+
+=== Taktik ve Risk Skoru Sınırı ===
+
+Ham AI çıktısında aşağıdaki alanlar bulunmamaktadır:
+
+tactic
+risk_score
+
+AI katmanı aşağıdaki temel sonucu üretir:
+
+attack_class
+candidate_class
+confidence
+margin
+status
+reasons
+probabilities
+
+tactic ve risk_score alanları frontend_publisher.py tarafından
+attack_class değerine ve onaylı politika yapılandırmasına göre
+oluşturulmaktadır.
+
+Bu dönüşüm Stage 8 kapsamında doğrulanmalıdır.
+
+=== Güncel Servis Gözlemi ===
+
+Servis yeniden başlatıldıktan sonraki gözlem aralığında:
+
+processed_captures: 0
+predictions: 0
+
+Bu aralıkta yeni, paket içeren ve kararlı hâle gelmiş bir PCAP dosyası
+bulunmadığı için yeni tahmin üretilmemiştir.
+
+Geçmiş çıktı dosyasında 711 geçerli tahmin bulunmaktadır.
+
+=== Sonuç ===
+
+JSONL geçerliliği: ✅ 711/711
+Credential_Attack: ✅ 658
+Unknown: ✅ 53
+log_only eylemi: ✅ 711/711
+Feature version 2.0.0: ✅ 711/711
+Cowrie korelasyonu: ✅ 711/711
+Confidence aralığı: ✅ Doğrulandı
+Margin aralığı: ✅ Doğrulandı
+Taktik üretimi: Stage 8 sorumluluğu
+Risk skoru üretimi: Stage 8 sorumluluğu
+Yeni canlı tahmin: 🟡 Son gözlem aralığında oluşmadı

@@ -1,0 +1,37 @@
+CyberHunter Stage 08 — AI Publisher Servis Durumu
+Tarih: 2026-10-01
+
+=== Servis etkinlik durumu ===
+enabled
+active
+
+=== systemd çalışma durumu ===
+MainPID=9049
+WorkingDirectory=/opt/cyberhunter/workspaces/ai/network_ai_v2_linux
+User=cyberai
+Group=cyberai
+ActiveState=active
+SubState=running
+
+=== Çalıştırılan komut ===
+/opt/cyberhunter/workspaces/ai/.venv/bin/python
+-m cyberhunter_ai.frontend_publisher
+--config /opt/cyberhunter/workspaces/ai/network_ai_v2_linux/configs/frontend_publisher.yaml
+
+=== systemd güvenlik ayarları ===
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadOnlyPaths=/var/log/cyberhunter/ai/network_ai.jsonl
+ReadWritePaths=/var/log/cyberhunter/ai /var/lib/cyberhunter/ai/output
+
+=== Sonuç ===
+cyberhunter-ai-publisher.service etkinleştirilmiş ve active/running
+durumunda doğrulanmıştır. Servis cyberai kullanıcısı ve grubu altında
+çalışmaktadır.
+
+AI çıktı dosyasına salt okunur erişim verilmiş, Publisher durum dosyası
+ve olay çıktı dizinleriyle sınırlı yazma izni tanımlanmıştır.

@@ -1,0 +1,49 @@
+=== Stage 16 Firmware Röle Yapılandırması ===
+Tarih: 2026-10-01
+Bileşen: ESP32 CyberHunter firmware
+
+=== Kanal ve GPIO eşlemesi ===
+
+Kanal 1: GPIO13
+Kanal 2: GPIO14
+Kanal 3: GPIO18
+Kanal 4: GPIO19
+Kanal 5: GPIO23
+Kanal 6: GPIO25
+Kanal 7: GPIO26
+Kanal 8: GPIO27
+
+=== Mantıksal kontrol seviyeleri ===
+
+Röle etkin: LOW
+Röle pasif: HIGH
+Çalışma biçimi: active-low
+
+=== Firmware başlangıç davranışı ===
+
+- Her pin için önce pasif HIGH seviyesi hazırlanır.
+- Pin daha sonra OUTPUT olarak yapılandırılır.
+- Başlangıç işlemi tamamlandığında ROLELER=KAPALI ESIK=BEKLENIYOR
+  kaydı üretilir.
+
+=== Grup kontrol davranışı ===
+
+- Normal CyberHunter firmware'i sekiz röleyi grup olarak kontrol eder.
+- Röleler etkinleştirilirken kanallar arasında 40 ms gecikme uygulanır.
+- İzolasyon pasif olduğunda setRelayLeds(true) çağrılır.
+- İzolasyon aktif olduğunda setRelayLeds(false) çağrılır.
+- Aynı durum tekrar istendiğinde gereksiz GPIO yazımı yapılmaz.
+
+=== Güvenlik sınırı ===
+
+Firmware GPIO seviyelerini kontrol eder; aşağıdaki durumları tek başına
+doğrulamaz:
+
+- Röle kontaklarının elektriksel sürekliliği
+- Gerçek Ethernet veya güç hattının kesilmesi
+- Bobin akımının güvenli sınırlar içinde olması
+- Sekiz kanalın eş zamanlı ve uzun süreli güç tüketimi
+- Optik izolasyonun elektriksel etkinliği
+
+Ham üretim firmware'i Wi-Fi bilgileri veya kriptografik anahtar içerebileceği
+için herkese açık repoya eklenmemiştir.

@@ -1,0 +1,94 @@
+CyberHunter Stage 13 — Anonimleştirilmiş Firmware HTTP Sözleşmesi
+Tarih: 2026-10-01
+İncelenen dosya: CyberHunterV2.ino
+SHA-256: 2a1e8e8418c2d3e60b692060fbf2c69fa36cc794b11b6365ef675ac0760e61dd
+
+Amaç:
+ESP32 firmware'inin kullandığı HTTP yöntemlerini, endpoint yollarını, başarı
+koşullarını ve bağlantı güvenliği davranışını hassas alan adlarını açıklamadan
+belgelemek.
+
+Endpoint sözleşmesi:
+
+  Güvenlik olayı gönderme
+    Yöntem   : POST
+    Yol      : /api/security-events
+    2xx şartı: Var
+
+  Güvenlik olayı sorgulama
+    Yöntem   : POST
+    Yol      : /api/security-events/query
+    2xx şartı: Var
+
+  Cihaz yapılandırması alma
+    Yöntem   : GET
+    Yol      : /api/device-config/esp32-cyberhunter-01
+    2xx şartı: Var
+
+Önemli düzeltme:
+Query endpoint'i GET değil POST yöntemiyle çağrılmaktadır.
+
+Backend olay gövdesi alanları:
+
+  event_id
+  timestamp
+  source_ip
+  destination_port
+  protocol
+  event_type
+  command
+  tactic
+  input_risk_score
+  esp32_risk_score
+  decision
+  processed
+  device_id
+
+Olay POST başarı koşulu:
+
+  200 <= HTTP durum kodu < 300
+
+Firmware davranışı:
+
+  saved = backend POST işleminin 2xx sonucu
+  processed = saved
+
+Bu nedenle Raspberry Pi cevabındaki processed=true değeri backend POST
+işleminin 2xx ile tamamlandığını ifade eder.
+
+Wi-Fi ve DNS davranışı:
+
+  WiFi.begin çağrısı           : Mevcut
+  WiFi.reconnect çağrısı       : Mevcut
+  Başarısız reconnect sonrası
+  yeniden WiFi.begin           : Mevcut
+  WiFi.hostByName DNS kontrolü : Mevcut
+
+HTTPS davranışı:
+
+  WiFiClientSecure             : Kullanılıyor
+  HTTPS URL                    : Kullanılıyor
+  setInsecure()                : Kullanılıyor
+  CA sertifika doğrulaması     : Uygulanmamış
+
+Güvenlik değerlendirmesi:
+HTTPS taşıması kullanılsa da setInsecure() nedeniyle sunucu sertifikası
+doğrulanmamaktadır. Bu yapı üretim seviyesinde güvenli TLS bağlantısı olarak
+kabul edilmemelidir.
+
+Yapılandırma bulgusu:
+Firmware kaynak kodunda geçici ngrok alan adı, Wi-Fi bilgileri, backend
+adresleri ve AES anahtarı doğrudan tanımlanmıştır. Değerlerin kendileri bu
+kanıta yazılmamıştır.
+
+Ham firmware mevcut hâliyle public repoya eklenmemelidir. Gerçek değerler
+public bir yere yüklendiyse Wi-Fi parolası ve AES anahtarı değiştirilmelidir.
+
+Kapsam sınırı:
+Olay POST akışı gerçek processed=true cevabıyla doğrulanmıştır. Query ve
+config endpoint'leri kaynak kodda doğrulanmış, ancak ayrı başarılı runtime
+testleri bu kanıt kapsamında gerçekleştirilmemiştir.
+
+Gizlilik:
+Gerçek alan adı, SSID, Wi-Fi parolası, URL değerleri ve AES anahtarı bu kanıt
+dosyasına eklenmemiştir.

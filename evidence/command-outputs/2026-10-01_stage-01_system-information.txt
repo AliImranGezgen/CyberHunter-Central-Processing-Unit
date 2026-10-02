@@ -1,0 +1,64 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Sistem bilgileri
+Sistem: CyberHunter Merkezi İşleme Birimi
+
+=== Kullanılan Komutlar ===
+
+lsb_release -ds
+lsb_release -cs
+dpkg --print-architecture
+uname -r
+hostname
+timedatectl show --property=Timezone --property=NTPSynchronized --property=NTP
+systemctl is-active systemd-timesyncd
+systemctl is-enabled systemd-timesyncd
+timedatectl timesync-status
+
+=== İşletim Sistemi ===
+
+Dağıtım: Ubuntu 24.04.4 LTS
+Kod adı: noble
+
+=== Mimari ve Kernel ===
+
+Paket mimarisi: arm64
+Kernel: 6.8.0-1061-raspi
+
+=== Hostname ===
+
+cyberhunter-pi
+
+=== Zaman Yapılandırması ===
+
+Saat dilimi: Europe/Istanbul
+NTP yapılandırması: yes
+NTP servisi: active
+NTP başlangıç durumu: enabled
+NTP senkronizasyonu: no
+
+=== NTP Sunucusu ===
+
+Sunucu adresi: <NTP_SERVER_ADDRESS>
+Sunucu adı: time.google.com
+Poll interval: 34min 8s
+Packet count: 0
+
+=== Sonuç ===
+
+Ubuntu Server sürümü, kod adı, mimari, kernel, hostname ve saat dilimi
+doğrulanmıştır.
+
+systemd-timesyncd servisi aktif ve sistem başlangıcında etkin durumdadır.
+NTP kullanımı yapılandırılmıştır. Ancak kanıt alındığı sırada paket
+alışverişi gerçekleşmediği ve NTPSynchronized=no sonucu görüldüğü için
+saat senkronizasyonu henüz doğrulanmamıştır.
+
+Durumlar:
+
+İşletim sistemi: ✅ Doğrulandı
+Mimari: ✅ Doğrulandı
+Kernel: ✅ Doğrulandı
+Hostname: ✅ Doğrulandı
+Saat dilimi: ✅ Doğrulandı
+NTP servisi: ✅ Aktif
+NTP senkronizasyonu: 🟡 İnceleniyor

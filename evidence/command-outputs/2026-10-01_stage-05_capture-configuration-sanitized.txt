@@ -1,0 +1,63 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Anonimleştirilmiş paket yakalama yapılandırması
+
+=== Yakalama Aracı ===
+
+Araç: /usr/bin/tcpdump
+Ağ arayüzü: wlan0
+Adres çözümleme: Kapalı (-nn)
+Snap length: Tam paket (-s 0)
+Dosya biçimi: PCAP
+Yakalama süresi: 300 saniye
+Servis kullanıcısı: root
+tcpdump ayrıcalık kullanıcısı: root
+
+=== Trafik Filtresi ===
+
+tcp port 22 or tcp port 2222
+
+=== Dosya Yönetimi ===
+
+Aktif dosya biçimi:
+capture-<UTC_TIMESTAMP>.pcap.part
+
+Kapanmış dosya biçimi:
+capture-<UTC_TIMESTAMP>.pcap
+
+Depolama dizini:
+/var/lib/cyberhunter/ai/captures/
+
+=== Anonimleştirilmiş Çalışan Süreç ===
+
+timeout --signal=INT --kill-after=10s 300 \
+  /usr/bin/tcpdump \
+  -i wlan0 \
+  -Z root \
+  -nn \
+  -s 0 \
+  -w <ACTIVE_CAPTURE_FILE>.pcap.part \
+  'tcp port 22 or tcp port 2222'
+
+=== Sonuç ===
+
+tcpdump, wlan0 arayüzünde TCP port 22 ve port 2222 trafiğini
+yakalamaktadır.
+
+Aktif yakalama dosyaları .pcap.part uzantısıyla tutulmakta ve beş
+dakikalık yakalama süresi tamamlandıktan sonra .pcap uzantısına
+dönüştürülmektedir.
+
+Port filtresi: ✅ Doğrulandı
+Aktif dosya ayrımı: ✅ Doğrulandı
+Beş dakikalık rotasyon: ✅ Doğrulandı
+PCAP üretimi: ✅ Doğrulandı
+
+=== Güvenlik Bulguları ===
+
+- Servis root hesabıyla çalışmaktadır.
+- tcpdump, -Z root seçeneğiyle ayrıcalıklarını korumaktadır.
+- -s 0 seçeneği paketlerin tamamının yakalanmasına neden olmaktadır.
+- PCAP dosyaları IP adresi, trafik metadata'sı ve payload içerebilir.
+- Ayrı paket yakalama kullanıcısı ve Linux capability kullanımı
+  değerlendirilmelidir.
+- PCAP saklama ve otomatik silme süresi ayrıca doğrulanmalıdır.

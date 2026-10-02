@@ -1,0 +1,113 @@
+CyberHunter Stage 09 — Kontrollü Bridge–ESP32 Teslim Testi
+Tarih: 2026-10-01
+
+=== Test amacı ===
+Bridge Inbox Worker'ın bir olayı I2C üzerinden ESP32'ye gönderebildiğini,
+ESP32 cevabını doğrulayabildiğini ve başarılı olayı archive dizinine
+taşıdığını göstermek.
+
+=== Kontrollü test olayı ===
+event_id: evt-stage09-20261001T122857Z
+source_ip: <DOCUMENTATION_TEST_IP>
+destination_port: 22
+protocol: SSH
+event_type: Normal_Benign
+command: Controlled Stage 09 delivery test
+tactic: Benign
+risk_score: 0
+
+Test IP adresi dokümantasyon amacıyla ayrılmış 192.0.2.0/24 bloğundan
+seçilmiştir. Gerçek kullanıcı veya saldırgan adresi değildir.
+
+=== I2C keşfi ===
+I2C aygıtı:
+/dev/i2c-1
+
+Tespit edilen ESP32 adresi:
+0x08
+
+=== Birinci deneme ===
+ESP32 SEND: OK
+TX JSON uzunluğu: 250 bayt
+TX AES blob uzunluğu: 282 bayt
+TX frame sayısı: 15
+
+RX AES blob uzunluğu: 188 bayt
+RX frame sayısı: 10
+
+Frame birleştirme: OK
+AES-GCM doğrulama: OK
+AES-GCM şifre çözme: OK
+event_id eşleşmesi: OK
+
+ESP32 cevabı:
+event_id: evt-stage09-20261001T122857Z
+device_id: esp32-cyberhunter-01
+input_risk_score: 0
+esp32_risk_score: 0
+decision: safe
+processed: false
+
+Worker sonucu:
+status: retry_scheduled
+attempts: 1
+
+Olay inbox dizinine geri taşınmıştır.
+
+=== İkinci deneme ===
+ESP32 SEND: OK
+TX JSON uzunluğu: 250 bayt
+TX AES blob uzunluğu: 282 bayt
+TX frame sayısı: 15
+
+RX AES blob uzunluğu: 187 bayt
+RX frame sayısı: 10
+
+Frame birleştirme: OK
+AES-GCM doğrulama: OK
+AES-GCM şifre çözme: OK
+event_id eşleşmesi: OK
+
+Worker sonucu:
+status: success
+attempts: 2
+
+ESP32 cevabı:
+event_id: evt-stage09-20261001T122857Z
+device_id: esp32-cyberhunter-01
+input_risk_score: 0
+esp32_risk_score: 0
+decision: safe
+processed: true
+
+=== Kuyruk sonucu ===
+Inbox:
+Test dosyası bulunmuyor.
+
+Archive:
+evt-stage09-20261001T122857Z.json
+251 bytes
+
+Rejected:
+Test dosyası bulunmuyor.
+
+=== State sonucu ===
+status: success
+attempts: 2
+event_id: evt-stage09-20261001T122857Z
+processed: true
+
+=== Sonuç ===
+Kontrollü olay Raspberry Pi tarafından I2C üzerinden ESP32'ye başarıyla
+gönderilmiştir.
+
+Çok çerçeveli mesaj yeniden birleştirilmiş, AES-GCM kimlik doğrulaması ve
+şifre çözme işlemleri başarıyla tamamlanmıştır. ESP32 aynı event_id ile
+processed=true cevabı vermiştir.
+
+Inbox Worker başarılı olayı archive dizinine atomik olarak taşımış ve ESP32
+cevabını state dosyasına kaydetmiştir.
+
+Risk skoru 0 ve karar safe olduğu için bu test fiziksel izolasyon talebi
+oluşturmamıştır. Bu test röle kontaklarının fiziksel izolasyon sağladığını
+kanıtlamaz.

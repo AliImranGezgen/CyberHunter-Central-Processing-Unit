@@ -1,0 +1,27 @@
+=== Stage 15 Dinamik Eşik API Doğrulaması ===
+Tarih: 2026-10-01
+Cihaz: esp32-cyberhunter-01
+
+=== Eşik 20 doğrulaması ===
+HTTP durumu: 200
+Cihaz: esp32-cyberhunter-01
+Beklenen eşik: 20
+Backend eşik değeri: 20
+Eşik eşleşmesi: True
+
+=== Eşik 70 doğrulaması ===
+HTTP durumu: 200
+Cihaz: esp32-cyberhunter-01
+Beklenen eşik: 70
+Backend eşik değeri: 70
+Eşik eşleşmesi: True
+
+Sonuç:
+- Aynı cihazın eşik değeri dashboard/backend üzerinden değiştirilebilmektedir.
+- 20 ve 70 değerleri backend API üzerinden ayrı ayrı okunmuştur.
+- Her iki kontrolde de HTTP 200 alınmıştır.
+- Okunan değerler beklenen değerlerle eşleşmiştir.
+
+Not:
+Backend adresi, geçici tünel adresi ve kimlik doğrulama bilgileri bu kanıt
+dosyasına dahil edilmemiştir.

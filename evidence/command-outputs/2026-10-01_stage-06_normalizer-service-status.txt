@@ -1,0 +1,67 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Normalizer servis ve timer durumu
+
+=== Normalizer Servisi ===
+
+Servis: cyberhunter-normalizer.service
+Servis türü: oneshot
+Başlangıç durumu: static
+Anlık durum: inactive
+Kullanıcı: cybernormalize
+Grup: cybernormalize
+Çalışma dizini: /opt/cyberhunter/workspaces/ai
+Python: /usr/bin/python3
+PYTHONPATH: /opt/cyberhunter/workspaces/ai/src
+Modül: cyberhunter_ai.pipeline
+Kaynak: cowrie
+
+Girdi:
+/var/lib/cyberhunter/decoy/cowrie/var/log/cowrie/cowrie.json
+
+Çıktı:
+/var/lib/cyberhunter/ai/input/cowrie.normalized.jsonl
+
+=== Normalizer Timer ===
+
+Timer: cyberhunter-normalizer.timer
+Başlangıç durumu: enabled
+Anlık durum: active
+İlk çalışma: Sistem açıldıktan iki dakika sonra
+Tekrarlama aralığı: Bir dakika
+AccuracySec: 5 saniye
+Persistent: true
+Tetiklenen servis: cyberhunter-normalizer.service
+
+=== Durum Açıklaması ===
+
+Normalizer servisi oneshot türündedir. Yalnızca timer tarafından
+tetiklendiğinde çalışır ve normalizasyon tamamlandıktan sonra kapanır.
+
+Bu nedenle servisin iki çalışma arasında inactive görünmesi normaldir.
+Sürekli aktif olması beklenen bileşen timer birimidir.
+
+=== systemd Güvenlik Ayarları ===
+
+UMask=0027
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictSUIDSGID=yes
+
+=== Sonuç ===
+
+Normalizer timer: ✅ Aktif
+Timer başlangıç durumu: ✅ Enabled
+Bir dakikalık tetikleme: ✅ Doğrulandı
+Oneshot servis davranışı: ✅ Doğrulandı
+Ayrı servis hesabı: ✅ Kullanılıyor
+systemd sertleştirmesi: ✅ Uygulandı
+Sanal ortam kullanımı: 🟡 Stage 3 iyileştirmesi bekliyor

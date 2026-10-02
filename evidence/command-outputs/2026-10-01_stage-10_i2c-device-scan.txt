@@ -1,0 +1,32 @@
+CyberHunter Stage 10 — I2C Aygıtı ve Adres Taraması
+Tarih: 2026-10-01
+
+Amaç:
+Raspberry Pi üzerindeki I2C veri yolunun ve ESP32 hedef adresinin
+erişilebilir olduğunu doğrulamak.
+
+Komutlar:
+
+  ls -l /dev/i2c-1
+  sudo i2cdetect -y 1
+
+Doğrulanan sonuç:
+
+  I2C aygıtı: /dev/i2c-1
+  ESP32 hedef adresi: 0x08
+  i2cdetect tablosunda görülen adres: 08
+
+Bağlantı eşlemesi:
+
+  Raspberry Pi GPIO2 / SDA1 / fiziksel pin 3 -> ESP32 GPIO21 / SDA
+  Raspberry Pi GPIO3 / SCL1 / fiziksel pin 5 -> ESP32 GPIO22 / SCL
+  Raspberry Pi GND -> ESP32 GND
+
+Değerlendirme:
+0x08 adresinin taramada görülmesi, hedef aygıtın I2C veri yolunda
+adreslenebildiğini doğrular. Uygulama protokolünün çalışması ayrıca kontrollü
+çift yönlü mesaj testiyle doğrulanmıştır.
+
+Gizlilik:
+Bu kanıtta IP adresi, MAC adresi, kullanıcı parolası, SSH anahtarı veya
+kriptografik anahtar bulunmaz.

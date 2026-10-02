@@ -1,0 +1,77 @@
+CyberHunter Stage 13 — Backend POST Entegrasyon Doğrulaması
+Tarih: 2026-10-01
+Test zinciri: Raspberry Pi -> ESP32 -> HTTPS Backend -> ESP32 -> Raspberry Pi
+
+Amaç:
+ESP32'nin aldığı güvenlik olayını backend'e göndermesini ve yalnızca başarılı
+HTTP 2xx sonucunda Raspberry Pi'ye processed=true bildirmesini doğrulamak.
+
+Kontrollü olay:
+
+  event_id             : evt-stage09-20261001T122857Z
+  input_risk_score     : 0
+  esp32_risk_score     : 0
+  decision             : safe
+
+İlk deneme:
+
+  ESP32 cevabı         : Alındı
+  processed            : false
+  Inbox Worker sonucu  : retry_scheduled
+  Arşivleme             : Yapılmadı
+
+Değerlendirme:
+Backend işlemi başarılı kabul edilmediği için ESP32 processed=false
+bildirmiştir. Inbox Worker bu sonucu başarı saymamış ve olayı yeniden deneme
+kuyruğuna almıştır.
+
+İkinci deneme:
+
+  ESP32 cevabı         : Alındı
+  request event_id     : evt-stage09-20261001T122857Z
+  response event_id    : evt-stage09-20261001T122857Z
+  event_id eşleşmesi   : true
+  device_id            : esp32-cyberhunter-01
+  input_risk_score     : 0
+  esp32_risk_score     : 0
+  decision             : safe
+  processed            : true
+  Inbox Worker sonucu  : success
+  Toplam deneme        : 2
+  Son kuyruk            : archive
+
+Kaynak kod ilişkisi:
+
+Firmware olay POST işlemini yalnızca aşağıdaki durumda başarılı kabul eder:
+
+  200 <= HTTP durum kodu < 300
+
+Backend gönderiminin boolean sonucu processed alanına aktarılır. Bu nedenle
+ikinci denemedeki processed=true değeri olay POST işleminin backend tarafından
+2xx cevapla kabul edildiğini gösterir.
+
+Doğrulanan akış:
+
+  Raspberry Pi olayı
+  -> Şifreli I2C gönderimi
+  -> ESP32 doğrulaması
+  -> POST /api/security-events
+  -> Backend HTTP 2xx
+  -> processed=true
+  -> Şifreli ESP32 cevabı
+  -> event_id eşleşmesi
+  -> Bridge archive
+
+Sonuç:
+ESP32'nin backend olay POST entegrasyonu kontrollü test kapsamında
+doğrulanmıştır. Başarısız backend sonucu başarı olarak kaydedilmemiş; başarılı
+2xx sonucu processed=true ile Raspberry Pi'ye iletilmiştir.
+
+Kapsam sınırı:
+Bu test backend uygulamasının iç kodunu, veritabanındaki satırı veya dashboard
+görünümünü bağımsız olarak doğrulamaz. Query ve config endpoint'leri de bu
+testin dışında kalır.
+
+Gizlilik:
+Gerçek backend alan adı, URL, IP adresi, SSID, Wi-Fi parolası ve AES anahtarı
+bu kanıta eklenmemiştir.

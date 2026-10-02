@@ -1,0 +1,100 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: AI servis ve çalışma ortamı doğrulaması
+
+=== Servis Durumu ===
+
+Servis: cyberhunter-ai.service
+Başlangıç durumu: enabled
+Aktif durum: active
+Alt durum: running
+Servis hesabı: cyberai
+Servis grubu: cyberai
+
+Çalışma dizini:
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux
+
+Python çalıştırıcısı:
+/opt/cyberhunter/workspaces/ai/.venv/bin/python
+
+Python sürümü:
+Python 3.11.15
+
+Çalışan modül:
+cyberhunter_ai.watch_pcap
+
+Modül dosyası:
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/src/cyberhunter_ai/watch_pcap.py
+
+Yapılandırma:
+/opt/cyberhunter/workspaces/ai/network_ai_v2_linux/configs/runtime_config.yaml
+
+=== systemd Yapılandırması ===
+
+Type=simple
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+Salt okunur veri dizinleri:
+
+/var/lib/cyberhunter/ai/captures
+/var/lib/cyberhunter/ai/input
+
+Yazılabilir çıktı dizini:
+
+/var/log/cyberhunter/ai
+
+=== Çalışma Modu ===
+
+Normalleştirilmiş Cowrie girdisi:
+/var/lib/cyberhunter/ai/input/cowrie.normalized.jsonl
+
+AI çıktı dosyası:
+/var/log/cyberhunter/ai/network_ai.jsonl
+
+İşlenmiş durum dosyası:
+/var/log/cyberhunter/ai/network_ai_state.json
+
+Kontrol aralığı:
+5 saniye
+
+Kararlılık bekleme süresi:
+15 saniye
+
+Event input sözleşmesi:
+normalized_only
+
+Eylem modu:
+log_only
+
+=== Güvenlik Sınırı ===
+
+watch_pcap.py aşağıdaki değerleri zorunlu tutmaktadır:
+
+event_input=normalized_only
+action=log_only
+
+action değeri log_only dışında olduğunda uygulama başlatılmamaktadır.
+
+AI kaynak kodunda aşağıdaki doğrudan donanım kontrol yöntemleri
+bulunmamıştır:
+
+- SMBus
+- /dev/i2c
+- GPIO
+- Röle kontrolü
+- Fiziksel izolasyon çağrısı
+
+=== Sonuç ===
+
+AI servisi: ✅ Aktif
+Başlangıç durumu: ✅ Enabled
+Ayrı servis hesabı: ✅ Kullanılıyor
+Python sanal ortamı: ✅ Python 3.11.15
+systemd sertleştirmesi: ✅ Uygulandı
+Çıktı sınırı: ✅ log_only
+Doğrudan fiziksel eylem: ✅ Bulunmuyor
+Üretim saha doğrulaması: 🟡 Bekleniyor

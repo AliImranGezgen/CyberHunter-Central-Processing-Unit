@@ -1,0 +1,65 @@
+=== Stage 15 Firmware Dinamik Eşik Mantığı İncelemesi ===
+Tarih: 2026-10-01
+İncelenen bileşen: ESP32 CyberHunter firmware
+Firmware SHA-256:
+2a1e8e8418c2d3e60b692060fbf2c69fa36cc794b11b6365ef675ac0760e61dd
+
+=== Başlangıç durumu ===
+
+- isolationThreshold başlangıç değeri -1'dir.
+- Firmware sabit 70 değerini izolasyon eşiği olarak kullanmamaktadır.
+- Cihaz henüz geçerli eşik almadığında yapılandırılmamış kabul edilmektedir.
+
+=== Yapılandırma alma ===
+
+- ESP32 cihaz yapılandırmasını HTTP GET isteğiyle alır.
+- Beklenen cihaz kimliği esp32-cyberhunter-01 değeridir.
+- Yapılandırma cevabı 512 bayt ile sınırlandırılmıştır.
+- Cevabın geçerli JSON olması zorunludur.
+- device_id alanının metin olması zorunludur.
+- isolation_threshold alanının tam sayı olması zorunludur.
+- Cihaz kimliği beklenen değerle eşleşmelidir.
+- Eşik 0 ile 100 arasında olmalıdır.
+
+=== Değer güncelleme ===
+
+- isolationThreshold yalnızca bütün kontroller başarılı olduğunda güncellenir.
+- Başarılı alım CONFIG=OK ESIK=<değer> kaydı üretir.
+- HTTP, JSON, cihaz kimliği veya değer kontrolü başarısız olduğunda mevcut
+  isolationThreshold değeri üzerine yazılmaz.
+
+=== İzolasyon karşılaştırması ===
+
+- Config alma işlemi izolasyon karşılaştırmasından önce çağrılır.
+- İzolasyon koşulu risk >= isolationThreshold biçimindedir.
+- risk < isolationThreshold olduğunda prototip röle/LED komutu açık durumdadır.
+- risk >= isolationThreshold olduğunda prototip röle/LED komutu kapalı durumdadır.
+
+=== Fail-safe davranışı ===
+
+- Daha önce geçerli bir eşik alındıysa config hatasında son geçerli değer korunur.
+- Daha önce geçerli eşik alınmadıysa isolationThreshold -1 olarak kalır.
+- Eşik -1 olduğunda firmware röle durumunu değiştirmez.
+- Bu durumda ROLE_LED=DEGISMEDI ESIK=YOK kaydı üretilir.
+
+=== Risk sınıfı ayrımı ===
+
+- ESP32 cevabındaki decision alanı sabit risk aralıklarıyla üretilir.
+- Dinamik isolationThreshold değeri decision metnini değiştirmez.
+- Fiziksel kontrol kararı risk, eşik ve röle/LED durumu üzerinden değerlendirilir.
+
+=== Güvenlik bulguları ===
+
+- HTTPS istemcisinde sertifika doğrulamasını kapatan setInsecure() kullanımı vardır.
+- Ham firmware yapılandırma değerleri ve gizli bilgiler içerebildiği için
+  herkese açık repoya eklenmemelidir.
+- Wi-Fi parolası, gerçek endpoint, kriptografik anahtar veya başka bir secret
+  bu kanıt dosyasına dahil edilmemiştir.
+
+=== Doğrulama sınırı ===
+
+- Son geçerli eşik davranışı gerçek kesinti testiyle doğrulanmıştır.
+- İlk açılışta config alınamaması kolu kaynak kod üzerinde doğrulanmış ancak
+  ayrı bir çalışma zamanı testiyle tetiklenmemiştir.
+- Röle kontaklarının gerçek hat üzerindeki elektriksel etkisi bu incelemenin
+  kapsamında değildir.

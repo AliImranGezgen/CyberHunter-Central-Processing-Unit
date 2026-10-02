@@ -1,0 +1,56 @@
+CyberHunter Stage 12 — Gerçek ESP32 Cevap Doğrulaması
+Tarih: 2026-10-01
+Test katmanı: Raspberry Pi Inbox Worker ve ESP32 entegrasyonu
+
+Amaç:
+ESP32'nin gönderilen olayla aynı event_id değerini taşıyan, gerekli cevap
+alanlarını içeren ve processed=true bildiren bir cevap ürettiğini doğrulamak.
+
+=== Stage 12 Başarılı ESP32 Cevabı ===
+
+{
+  "status": "success",
+  "attempts": 2,
+  "request_event_id": "evt-stage09-20261001T122857Z",
+  "response": {
+    "event_id": "evt-stage09-20261001T122857Z",
+    "device_id": "esp32-cyberhunter-01",
+    "input_risk_score": 0,
+    "esp32_risk_score": 0,
+    "decision": "safe",
+    "processed": true
+  },
+  "event_id_match": true
+}
+
+Doğrulama sonucu:
+
+  İstek event_id ve cevap event_id eşleşmesi : Başarılı
+  device_id alanı                            : Mevcut
+  input_risk_score alanı                     : Mevcut
+  esp32_risk_score alanı                     : Mevcut
+  decision alanı                             : Mevcut
+  processed alanı                            : true
+  Inbox Worker sonucu                        : success
+
+Deneme geçmişi:
+
+- İlk denemede ESP32 processed=false cevabı üretmiştir.
+- Inbox Worker bu cevabı başarı saymamış ve retry_scheduled oluşturmuştur.
+- İkinci denemede processed=true cevabı alınmıştır.
+- event_id eşleşmesi doğrulanmıştır.
+- Olay archive dizinine taşınmıştır.
+
+Sonuç:
+Raspberry Pi'nin başarı kriterleri olan eşleşen event_id ve processed=true
+koşulları gerçek ESP32 cevabıyla doğrulanmıştır.
+
+Kapsam sınırı:
+Bu test başarılı cevap yolunu ve daha önceki processed=false retry davranışını
+doğrular. invalid_json, invalid_schema, invalid_value ve aes_auth_failed hata
+yolları kaynak kodda doğrulanmış ancak gerçek donanım üzerinde ayrı negatif
+testlerle tetiklenmemiştir.
+
+Gizlilik:
+Bu kanıt gerçek IP adresi, MAC adresi, Wi-Fi parolası, backend URL'si veya AES
+anahtarı içermez.

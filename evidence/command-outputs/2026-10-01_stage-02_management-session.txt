@@ -1,0 +1,34 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Yönetim SSH oturumu
+
+=== Bağlantı Komutu ===
+
+ssh -p 22222 <MANAGEMENT_USER>@<RASPBERRY_LOCAL_IP>
+
+=== Oturum Doğrulaması ===
+
+Komut:
+whoami
+
+Çıktı:
+<MANAGEMENT_USER>
+
+Komut:
+hostname
+
+Çıktı:
+cyberhunter-pi
+
+=== Sonuç ===
+
+Yetkili istemciden port 22222 üzerinden yönetim SSH oturumu açılmıştır.
+Bağlantı sonrasında hedef sistemin hostname değeri cyberhunter-pi
+olarak doğrulanmıştır.
+
+Gerçek kullanıcı adı ve Raspberry Pi IP adresi güvenlik amacıyla
+maskelenmiştir.
+
+Durum:
+
+Port 22222 yönetim bağlantısı: ✅ Başarılı
+Hedef hostname doğrulaması: ✅ Başarılı

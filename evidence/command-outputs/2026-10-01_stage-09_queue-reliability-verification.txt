@@ -1,0 +1,74 @@
+CyberHunter Stage 09 — Kuyruk Güvenilirliği Doğrulaması
+Tarih: 2026-10-01
+
+=== AI output transfer ===
+Kaynak:
+/var/lib/cyberhunter/ai/output
+
+Hedef:
+/var/lib/cyberhunter/bridge/outbox
+
+Kullanılan güvenlik mekanizmaları:
+- fcntl.flock ile süreç kilidi
+- Geçici dosya oluşturma
+- os.replace ile atomik dosya yerleştirme
+- /run/lock/cyberhunter-ai-output-transfer.lock kilit dosyası
+
+=== Bridge outbox sender ===
+Kuyruk:
+/var/lib/cyberhunter/bridge/outbox
+
+Kullanılan güvenlik mekanizmaları:
+- .sender.lock kilit dosyası
+- fcntl.flock ile eş zamanlı çalışma engelleme
+- Başarısız gönderim durumunda dosyanın outbox içerisinde korunması
+- Timer tabanlı yeniden gönderim
+
+=== Bridge receiver ===
+Hedef:
+/var/lib/cyberhunter/bridge/inbox
+
+Kullanılan güvenlik mekanizmaları:
+- event_id değerinin SHA-256 özetiyle dosya adı üretme
+- Olay bazlı kilit dosyası
+- fcntl.flock ile aynı olayın eş zamanlı işlenmesini engelleme
+- Geçici dosya
+- os.replace ile atomik inbox yazımı
+- Mevcut olayların yinelenmesini engelleme
+
+=== Inbox Worker ===
+Kuyruk dizinleri:
+- inbox
+- processing
+- archive
+- rejected
+- state
+
+Kullanılan güvenlik mekanizmaları:
+- Worker kilit dosyası
+- LOCK_EX ve LOCK_NB ile tek Worker örneği
+- inbox → processing için os.replace
+- State dosyaları için atomik yazma
+- En fazla üç teslim denemesi
+- Geçici hatada retry_scheduled
+- Başarıda archive
+- Geçersiz şemada rejected
+- Üç teslim hatasından sonra rejected
+- ESP32 cevabında event_id eşleşmesi
+- ESP32 cevabında processed=true koşulu
+
+=== Kaynak kod özetleri ===
+AI output transfer SHA-256:
+fae4079c2a7501dc8fa05db36bc63cf2c6e9ed294512400f90863cf36ef3dd8e
+
+Bridge outbox sender SHA-256:
+4fd36448fb4d753bfe6c358e5618e2482e8cdcc55425de62ea665eac841ee110
+
+Bridge receiver SHA-256:
+fa2265e33fb4005144f1dc21ae9ad2d3df1797b6c0199494a09c7eee56cd2b32
+
+Inbox Worker SHA-256:
+abb19c768d2c7e1975adfa3c97164caf9c867a34f4db40334ab1f8cbf35344e0
+
+ESP32 istemcisi SHA-256:
+1a192bdb55e35d0b69e03621a6f83e1a96dd671ee0700dcf98f65c3e22ffee60

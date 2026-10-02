@@ -1,0 +1,52 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Paket yakalama servisi durumu
+
+=== Kullanılan Komutlar ===
+
+systemctl is-enabled cyberhunter-ai-capture.service
+systemctl is-active cyberhunter-ai-capture.service
+
+systemctl show cyberhunter-ai-capture.service \
+  --property=User \
+  --property=Group \
+  --property=ActiveState \
+  --property=SubState \
+  --property=MainPID \
+  --property=ExecStart \
+  --property=WorkingDirectory
+
+=== Servis Durumu ===
+
+Servis: cyberhunter-ai-capture.service
+Başlangıç durumu: enabled
+Aktif durum: active
+Alt durum: running
+Kullanıcı: root
+Grup: root
+Çalıştırıcı: /usr/local/sbin/cyberhunter-ai-capture.sh
+
+=== systemd Yapılandırması ===
+
+Description=CyberHunter AI Packet Capture
+After=network.target
+ConditionPathExists=/sys/class/net/wlan0
+
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/sbin/cyberhunter-ai-capture.sh
+Restart=always
+RestartSec=5
+WantedBy=multi-user.target
+
+=== Sonuç ===
+
+Paket yakalama servisi sistem başlangıcında etkin ve çalışma durumundadır.
+Servis başlamadan önce wlan0 arayüzünün varlığı kontrol edilmektedir.
+Servis başarısız olduğunda beş saniye sonra yeniden başlatılacak şekilde
+yapılandırılmıştır.
+
+Servis durumu: ✅ Aktif
+Başlangıç durumu: ✅ Enabled
+Otomatik yeniden başlatma: ✅ Yapılandırıldı
+En düşük yetki: 🟡 İnceleniyor

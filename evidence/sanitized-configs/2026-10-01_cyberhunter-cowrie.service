@@ -1,0 +1,32 @@
+# Kaynak: sudo systemctl cat cyberhunter-cowrie.service
+# Kanıt tarihi: 2026-10-01
+# Hassas bilgiler kontrol edilmiştir.
+
+[Unit]
+Description=CyberHunter Cowrie SSH Honeypot
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+User=cyberdecoy
+Group=cyberdecoy
+WorkingDirectory=/var/lib/cyberhunter/decoy/cowrie
+
+Environment=HOME=/var/lib/cyberhunter/decoy
+Environment=PATH=/opt/cyberhunter/venvs/decoy/bin:/usr/bin:/bin
+
+PIDFile=/var/lib/cyberhunter/decoy/cowrie/var/run/cowrie.pid
+
+ExecStart=/opt/cyberhunter/venvs/decoy/bin/cowrie start
+ExecStop=/opt/cyberhunter/venvs/decoy/bin/cowrie stop
+
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full

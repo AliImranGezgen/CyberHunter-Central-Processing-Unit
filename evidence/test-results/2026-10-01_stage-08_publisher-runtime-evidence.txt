@@ -1,0 +1,41 @@
+CyberHunter Stage 08 — Publisher Çalışma Zamanı Kanıtı
+Tarih: 2026-10-01
+
+=== Publisher çıktı aktarım kayıtları ===
+Aktarıldı: evt-20261001T110250Z-vrrova.json
+Aktarıldı: evt-20261001T110403Z-v2hhyf.json
+Aktarıldı: evt-20261001T110434Z-9coz5u.json
+Aktarıldı: evt-20261001T111101Z-yvk6xo.json
+Aktarıldı: evt-20261001T111822Z-pkgr4i.json
+
+=== Bridge receiver kabul kayıtları ===
+2026-10-01T11:08:04.827Z POST /v1/events HTTP 201
+2026-10-01T11:08:04.844Z POST /v1/events HTTP 201
+2026-10-01T11:08:04.876Z POST /v1/events HTTP 201
+2026-10-01T11:12:59.797Z POST /v1/events HTTP 201
+2026-10-01T11:22:59.873Z POST /v1/events HTTP 201
+
+=== Değerlendirme ===
+Publisher tarafından beş olay dosyası oluşturulmuştur. Dosyalar
+/var/lib/cyberhunter/ai/output dizininden Bridge aktarım katmanı
+tarafından alınmıştır.
+
+Bridge receiver olayları kabul etmiş ve her istek için HTTP 201 yanıtı
+üretmiştir.
+
+Daha sonraki kontrolde Publisher output dizininin boş görünmesi olay
+oluşturulmadığı anlamına gelmemektedir. Dosyalar güvenilir aktarım hattı
+tarafından Bridge outbox ve inbox kuyruklarına taşınmıştır.
+
+Doğrulanan akış:
+
+AI çalışma zamanı çıktısı
+→ AI Publisher
+→ olay JSON dosyası
+→ AI output dizini
+→ output-transfer
+→ Bridge receiver
+→ HTTP 201
+
+Toplam oluşturulup aktarılan olay: 5
+Başarılı receiver kabulü: 5

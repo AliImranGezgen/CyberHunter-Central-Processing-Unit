@@ -1,0 +1,28 @@
+Kanıt tarihi: 2026-10-01
+Kanıt türü: Etkin OpenSSH yapılandırması
+
+=== Kullanılan Komut ===
+
+sudo sshd -T | grep -E \
+'^(port|permitrootlogin|pubkeyauthentication|passwordauthentication)'
+
+=== Çıktı ===
+
+port 22222
+permitrootlogin no
+pubkeyauthentication yes
+passwordauthentication no
+
+=== Sonuç ===
+
+OpenSSH yönetim servisi port 22222 üzerinde yapılandırılmıştır.
+Doğrudan root girişi kapalıdır.
+Public key kimlik doğrulaması açıktır.
+Parola tabanlı kimlik doğrulaması kapalıdır.
+
+Durumlar:
+
+Yönetim portu 22222: ✅ Doğrulandı
+Root girişi kapalı: ✅ Doğrulandı
+Public key doğrulaması: ✅ Etkin
+Parola doğrulaması: ✅ Kapalı
